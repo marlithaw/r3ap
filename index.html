@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>R³.A.P. Response Studio</title>
+    
+    <!-- Google Fonts: Playfair Display (Serif) and Montserrat (Sans) for Luxury, Inter for Live State Readability -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'brand-teal': '#0f5b5b',
+                        'brand-teal-light': '#187b7a',
+                        'brand-gold': '#c09e6c',
+                        'brand-gold-light': '#dfc59a',
+                        'brand-orange': '#f08a42',
+                        'studio-bg': '#f8f5ef',
+                        'live-bg': '#f9f9f7',
+                        'brand-dark': '#1a202c'
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                        live: ['Inter', 'sans-serif'] // For the Live State
+                    },
+                    boxShadow: {
+                        'luxury': '0 10px 30px rgba(15, 91, 91, 0.1)',
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Base Container Styling */
+        body {
+            background-color: #e5e7eb;
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; margin: 0;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        #app-container {
+            width: 100%; max-width: 414px; height: 100vh; max-height: 896px;
+            background-color: #f8f5ef;
+            position: relative; overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transition: background-color 0.3s ease;
+        }
+
+        @media (min-width: 415px) {
+            #app-container {
+                height: 850px; border-radius: 40px; border: 8px solid #1f2937;
+            }
+        }
+
+        /* Screens & Scrolling */
+        .screen {
+            display: none; width: 100%; height: 100%;
+            overflow-y: auto; overflow-x: hidden;
+            padding-bottom: 120px; /* Space for nav */
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        .screen.active { display: block; }
+        
+        .studio-background {
+            background-image: radial-gradient(circle at 50% 0%, #ffffff 0%, #f8f5ef 60%);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        ::-webkit-scrollbar { display: none; }
+
+        /* Typography & Utilities */
+        .font-serif { font-family: 'Playfair Display', serif; }
+        .icon-svg { stroke: currentColor; stroke-width: 1.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+        
+        /* Custom UI Components from Mockups */
+        .btn-luxury {
+            background: linear-gradient(90deg, #0f5b5b, #187b7a);
+            border: 1px solid #c09e6c; color: white;
+            box-shadow: 0 4px 15px rgba(15, 91, 91, 0.3); transition: all 0.2s ease;
+        }
+        .btn-luxury:active { transform: scale(0.98); }
+        
+        .luxury-divider {
+            display: flex; align-items: center; justify-content: center; margin: 1rem 0; color: #c09e6c;
+        }
+        .luxury-divider::before, .luxury-divider::after {
+            content: ''; height: 1px; width: 30px; background-color: #c09e6c; margin: 0 10px;
+        }
+
+        /* The Remix Cassette Art */
+        .cassette-body {
+            background: linear-gradient(135deg, #2ebfbf 0%, #128282 100%);
+            border-radius: 12px; padding: 10px; box-shadow: 0 15px 30px rgba(18, 130, 130, 0.3); position: relative;
+        }
+        .cassette-label { background: #fff9f0; border-radius: 6px; padding: 15px 10px; border: 1px solid #dfc59a; }
+        .cassette-spools { display: flex; justify-content: center; gap: 20px; background: #1a1a1a; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .spool { width: 30px; height: 30px; border-radius: 50%; background: #dfc59a; border: 4px solid #fff; position: relative; }
+        
+        /* VIP Pass Art */
+        .vip-card {
+            background: linear-gradient(180deg, #187b7a 0%, #0f5b5b 100%); border: 2px solid #c09e6c;
+            border-radius: 16px; padding: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); position: relative; color: #fff9f0;
+        }
+        .vip-card::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 30%;
+            background: linear-gradient(to bottom, #fff9f0, #e8ddc9); border-radius: 14px 14px 0 0; border-bottom: 2px solid #c09e6c; z-index: 0;
+        }
+        
+        /* Breathing Circle (Teacher Reset) */
+        .breathing-circle {
+            width: 150px; height: 150px; border-radius: 50%; border: 2px solid #0f5b5b;
+            background: rgba(15, 91, 91, 0.05); display: flex; align-items: center; justify-content: center;
+            animation: breathe 10s infinite ease-in-out; margin: 0 auto;
+        }
+        @keyframes breathe {
+            0% { transform: scale(1); opacity: 0.8; }
+            50% { transform: scale(1.5); opacity: 0.2; }
+            100% { transform: scale(1); opacity: 0.8; }
+        }
+
+        /* I to T Transformation */
+        .i-to-t-container { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 60px; }
+        .letter-top, .letter-bottom { height: 4px; background-color: #c09e6c; transition: all 0.8s ease; border-radius: 2px; }
+        .letter-stem { width: 4px; height: 35px; background-color: #c09e6c; border-radius: 2px; }
+        .letter-top { width: 16px; } .letter-bottom { width: 16px; opacity: 1; }
+        .transformed .letter-top { width: 44px; } .transformed .letter-bottom { width: 0px; opacity: 0; }
+    </style>
+</head>
+<body>
+
+<div id="app-container">
+    
+    <!-- STATIC SCREEN 1: SPLASH (The Cassette) -->
+    <div id="screen-splash" class="screen active studio-background px-6 pt-12">
+        <div class="text-center mb-8">
+            <h1 class="font-serif text-3xl font-bold text-brand-teal tracking-wide">R³.A.P.</h1>
+            <p class="text-[10px] tracking-[0.2em] font-semibold text-brand-gold mt-1 uppercase">Response Studio</p>
+        </div>
+        <div class="w-full max-w-xs mx-auto mt-4 mb-8">
+            <div class="cassette-body">
+                <div class="cassette-label text-center">
+                    <h2 class="font-serif italic font-bold text-xl text-brand-dark mb-1">THE REMIX</h2>
+                    <div class="w-full h-[1px] bg-gray-300 mb-1"></div>
+                    <div class="cassette-spools"><div class="spool"></div><div class="spool"></div></div>
+                    <div class="w-full h-[2px] bg-brand-teal mt-2 mb-1"></div>
+                    <p class="text-[10px] font-bold tracking-widest text-brand-teal">R³.A.P.</p>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-6">
+            <h2 class="font-serif text-3xl font-bold text-brand-dark mb-2">Welcome,<br><span class="italic text-brand-gold">Producer.</span></h2>
+            <p class="text-sm font-medium text-brand-dark px-4">A response system that reduces improvisation in high-stress moments.</p>
+        </div>
+        <div class="mt-10 px-4">
+            <button onclick="navTo('screen-dashboard')" class="w-full btn-luxury rounded-full py-4 flex items-center justify-center space-x-2">
+                <svg class="w-5 h-5 text-brand-gold" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+                <span class="font-semibold text-lg tracking-wide">Press Play</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- STATIC SCREEN 2: DASHBOARD (VIP Pass + Actions) -->
+    <div id="screen-dashboard" class="screen studio-background px-6 pt-10">
+        <div class="text-center mb-6">
+            <h2 class="font-serif text-2xl font-bold text-brand-teal">Ready for the Cypher?</h2>
+            <h2 class="font-serif italic text-2xl font-bold text-brand-gold mt-1">Master your freestyle.</h2>
+        </div>
+        
+        <!-- VIP Pass Graphic -->
+        <div class="w-full max-w-[220px] mx-auto mb-8">
+            <div class="vip-card text-center flex flex-col items-center justify-end h-40">
+                <div class="absolute top-4 w-full text-center z-10">
+                    <h3 class="font-serif text-lg font-bold text-brand-teal tracking-wide">R³.A.P.</h3>
+                </div>
+                <div class="mt-12 z-10">
+                    <p class="text-[10px] tracking-widest font-bold text-brand-gold mb-1">ALL-ACCESS</p>
+                    <h2 class="font-serif text-3xl font-bold text-brand-gold mb-1">STUDIO</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Grid -->
+        <div class="grid grid-cols-2 gap-4 px-2">
+            <button onclick="navTo('screen-library')" class="bg-white border border-brand-gold/30 rounded-xl p-4 flex flex-col items-center justify-center shadow-luxury hover:border-brand-teal transition">
+                <div class="w-10 h-10 rounded-full border border-brand-teal flex items-center justify-center mb-2 bg-brand-cream">
+                    <svg class="w-5 h-5 text-brand-teal icon-svg" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+                </div>
+                <span class="text-xs font-semibold text-brand-dark mb-1 text-center">Module Library</span>
+                <span class="text-[9px] text-gray-500">Teach & Prepare</span>
+            </button>
+            <button onclick="startLiveState()" class="bg-white border border-brand-gold/30 rounded-xl p-4 flex flex-col items-center justify-center shadow-luxury hover:border-brand-teal transition">
+                <div class="w-10 h-10 rounded-full border border-brand-orange flex items-center justify-center mb-2 bg-orange-50">
+                    <svg class="w-5 h-5 text-brand-orange icon-svg" viewBox="0 0 24 24"><path d="M22 12A10 10 0 1 1 12 2a10 10 0 0 1 10 10z"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                </div>
+                <span class="text-xs font-semibold text-brand-dark mb-1 text-center">Use It Live</span>
+                <span class="text-[9px] text-brand-orange font-bold">Fast Access</span>
+            </button>
+            <button onclick="navTo('screen-library')" class="bg-white border border-brand-gold/30 rounded-xl p-4 flex flex-col items-center justify-center shadow-luxury hover:border-brand-teal transition">
+                <div class="w-10 h-10 rounded-full border border-brand-teal flex items-center justify-center mb-2 bg-brand-cream">
+                    <svg class="w-5 h-5 text-brand-teal icon-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <span class="text-xs font-semibold text-brand-dark mb-1 text-center">Practice Scenarios</span>
+                <span class="text-[9px] text-gray-500">Rehearse</span>
+            </button>
+            <button onclick="navTo('screen-library')" class="bg-white border border-brand-gold/30 rounded-xl p-4 flex flex-col items-center justify-center shadow-luxury hover:border-brand-teal transition">
+                <div class="w-10 h-10 rounded-full border border-brand-teal flex items-center justify-center mb-2 bg-brand-cream">
+                    <svg class="w-5 h-5 text-brand-teal icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>
+                </div>
+                <span class="text-xs font-semibold text-brand-dark mb-1 text-center">Reflect & Report</span>
+                <span class="text-[9px] text-gray-500">Export Notes</span>
+            </button>
+        </div>
+        <div class="text-center mt-6">
+            <span class="text-[8px] tracking-[0.2em] font-bold text-brand-teal uppercase border-b border-brand-gold/50 pb-1">Rewire. Realign. Rise.</span>
+        </div>
+    </div>
+
+    <!-- DYNAMIC SCREENS CONTAINERS -->
+    <div id="screen-library" class="screen studio-background px-6 pt-10"></div>
+    <div id="screen-module" class="screen studio-background px-4 pt-8"></div>
+    <div id="screen-teach" class="screen studio-background px-4 pt-8"></div>
+    <div id="screen-live" class="screen px-6 pt-10 font-live"></div> <!-- Uses font-live, off-white set via JS -->
+    <div id="screen-practice" class="screen studio-background px-6 pt-10"></div>
+    <div id="screen-reflect" class="screen studio-background px-6 pt-10"></div>
+    <div id="screen-reset" class="screen px-6 pt-10 font-live flex items-center justify-center flex-col"></div>
+
+    <!-- BOTTOM NAVIGATION -->
+    <div class="absolute bottom-0 left-0 right-0 bg-white border-t border-brand-gold/20 px-6 py-4 flex justify-between items-center z-50 shadow-[0_-5px_15px_rgba(0,0,0,0.05)]">
+        <div class="flex flex-col items-center cursor-pointer text-gray-400 hover:text-brand-teal transition" onclick="navTo('screen-dashboard')">
+            <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span class="text-[10px] font-bold">Studio</span>
+        </div>
+        <div class="flex flex-col items-center cursor-pointer text-brand-teal" onclick="navTo('screen-library')">
+            <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            <span class="text-[10px] font-bold">Library</span>
+        </div>
+        <div class="flex flex-col items-center cursor-pointer text-brand-orange hover:opacity-80 transition" onclick="startLiveState()">
+            <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            <span class="text-[10px] font-bold">Live</span>
+        </div>
+        <div class="flex flex-col items-center cursor-pointer text-gray-400 hover:text-brand-teal transition" onclick="navTo('screen-library')">
+            <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            <span class="text-[10px] font-bold">Practice</span>
+        </div>
+    </div>
+
+</div>
+
+<!-- APPLICATION LOGIC & DATA -->
+<script>
+    // --- 1. DATA (From APP DESIGN SYSTEM.md) ---
+    const seedModules = [
+        {
+            id: "mod_1", category: "Entry routines", gradeBands: ["K-2", "3-5", "6-8"],
+            title: "Assigned Seat / Entry",
+            purpose: "Reduce doorway chaos and create a predictable classroom threshold.",
+            studentSteps: ["Walk into the room.", "Check the board or seating chart.", "Go directly to your assigned seat.", "Sit down.", "Begin the posted task."],
+            teacherTeachScript: "When you enter, check the seating chart, go to your assigned seat, and begin the Do Now. We will practice this until it feels automatic.",
+            reminderScripts: ["What’s our entry routine?", "Show me assigned seat, then Do Now."],
+            redirectScripts: ["Assigned seat, then Do Now.", "Check the seating chart and begin the Do Now."],
+            followThroughScripts: ["You can move to your assigned seat and start, or I’ll use the next classroom support step."],
+            repairScripts: ["When the seat assignment became public, it slowed the start of class. Tomorrow, what can you do when you disagree with a seat?"],
+            commonTrapStrongerMove: { trap: "I already explained why I moved you.", strongerMove: "Assigned seat, then Do Now." },
+            responsePathway: [
+                { step: 1, label: "Remind", then: "What’s our entry routine?" },
+                { step: 2, label: "Redirect", then: "Assigned seat, then Do Now." },
+                { step: 3, label: "Follow Through", then: "You can move to your assigned seat or I'll use a support step." },
+                { step: 4, label: "Repair", then: "What can you do tomorrow?" }
+            ],
+            traumaLens: { pattern: "Defiance at door", lookFor: "Hypervigilance / Peer performance", adultMove: "Lower voice, point to seat, step away." },
+            practiceScenario: {
+                scenario: "A student sees their new seat, stops in the doorway, and loudly complains: 'I'm not sitting there.'",
+                studentSays: "I'm not sitting there.",
+                choices: [
+                    { text: "Why are you complaining? Sit down.", isCorrect: false, feedback: "This invites debate and public shame." },
+                    { text: "Assigned seat, then Do Now.", isCorrect: true, feedback: "This returns the student to the routine clearly and calmly." },
+                    { text: "You owe me a reset conversation.", isCorrect: false, feedback: "This is punitive and escalates the moment unnecessarily." }
+                ]
+            }
+        },
+        {
+            id: "mod_2", category: "Learning space", gradeBands: ["K-2", "3-5", "6-8"],
+            title: "Remaining Seated",
+            purpose: "Protect the learning space and prevent movement from becoming the fastest way to get attention.",
+            studentSteps: ["Stay in your learning space during work time.", "Use the class signal when help is needed.", "Keep working while waiting.", "Move only when the teacher gives permission."],
+            teacherTeachScript: "During work time, your seat is your learning space. If you need help, use the signal and keep working while you wait. I will come to you.",
+            reminderScripts: ["What do we do when we need help?", "Use the signal and keep working."],
+            redirectScripts: ["Return to your seat. I’ll come to you.", "Back to your workspace and keep working."],
+            followThroughScripts: ["If you keep leaving your seat, I’ll move your workspace closer so I can support you."],
+            repairScripts: ["You needed help, but walking up changed the routine. Next time, signal first and I’ll come to you."],
+            commonTrapStrongerMove: { trap: "Why are you out of your seat?", strongerMove: "Return to your seat. I’ll come to you." },
+            responsePathway: [
+                { step: 1, label: "Remind", then: "Use the signal and keep working." },
+                { step: 2, label: "Redirect", then: "Return to your seat. I’ll come to you." },
+                { step: 3, label: "Follow Through", then: "I’ll move your workspace closer so I can support you." }
+            ],
+            traumaLens: { pattern: "Wandering", lookFor: "Task avoidance due to feeling unsafe/unsure", adultMove: "Proximity and private check-in." },
+            practiceScenario: {
+                scenario: "A student frustrated with a problem walks up to you, interrupting another conference.",
+                studentSays: "I don't get this. It's stupid.",
+                choices: [
+                    { text: "Go back to your seat right now.", isCorrect: false, feedback: "Combative. Doesn't reaffirm the support routine." },
+                    { text: "Return to your seat. I’ll come to you.", isCorrect: true, feedback: "Protects the learning space and affirms help is coming." },
+                    { text: "(Sigh) Let me see your paper.", isCorrect: false, feedback: "Reinforces that breaking the routine gets immediate attention." }
+                ]
+            }
+        },
+        {
+            id: "mod_3", category: "Language", gradeBands: ["6-8"],
+            title: "Profanity / Language",
+            purpose: "Separate emotion from harmful language and give students a path to restate frustration without shame.",
+            studentSteps: ["Pause before speaking.", "Use classroom language.", "If profanity comes out, reset the sentence.", "Say the message again without profanity.", "Repair harm if directed at someone."],
+            teacherTeachScript: "Frustration is allowed. Profanity is not. If the wrong word comes out, pause and say it again in a way we can work with.",
+            reminderScripts: ["Use classroom language.", "Pause and try that again."],
+            redirectScripts: ["Language reset. Try that again.", "Try that again without profanity."],
+            followThroughScripts: ["Pause. We’ll reset this privately after class."],
+            repairScripts: ["What words can you use next time without causing harm?"],
+            commonTrapStrongerMove: { trap: "How dare you talk like that?", strongerMove: "Language reset. Try that again." },
+            responsePathway: [
+                { step: 1, label: "Redirect", then: "Language reset. Try that again." },
+                { step: 2, label: "Follow Through", then: "Pause. We’ll reset this privately after class." },
+                { step: 3, label: "Repair", then: "What words can you use next time?" }
+            ],
+            traumaLens: { pattern: "Swearing when stuck", lookFor: "Frustration masquerading as aggression", adultMove: "Focus on the emotion, redirect the language." },
+            practiceScenario: {
+                scenario: "A student breaks their pencil tip and loudly curses.",
+                studentSays: "Oh, f***!",
+                choices: [
+                    { text: "Go to the office.", isCorrect: false, feedback: "Extreme escalation for an undirected emotional outburst." },
+                    { text: "How dare you talk like that in my room?", isCorrect: false, feedback: "Makes it personal and increases conflict." },
+                    { text: "Try that again without profanity.", isCorrect: true, feedback: "Allows correction of the mistake quickly, keeping dignity." }
+                ]
+            }
+        }
+    ];
+
+    // --- STATE ---
+    let activeModuleId = seedModules[0].id;
+    let liveStepIndex = 0;
+    let practiceAnswered = false;
+    let practiceCorrect = false;
+
+    const Icons = {
+        star: `<svg class="w-5 h-5 text-brand-gold mr-2" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>`,
+        arrowLeft: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>`
+    };
+
+    function getActiveModule() { return seedModules.find(m => m.id === activeModuleId); }
+
+    // --- NAVIGATION & VISUAL STATE MANAGER ---
+    function navTo(screenId, moduleId = null) {
+        if (moduleId) activeModuleId = moduleId;
+        
+        // Handle background colors based on Design System (Studio vs Live)
+        const container = document.getElementById('app-container');
+        if (screenId === 'screen-live' || screenId === 'screen-reset') {
+            container.style.backgroundColor = '#f9f9f7'; // Live State (Off-white)
+        } else {
+            container.style.backgroundColor = '#f8f5ef'; // Studio State (Cream)
+        }
+
+        document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+        
+        // Render dynamic content right before showing
+        if(screenId === 'screen-library') renderLibrary();
+        if(screenId === 'screen-module') renderModuleDetails();
+        if(screenId === 'screen-teach') renderTeach();
+        if(screenId === 'screen-live') renderLive();
+        if(screenId === 'screen-practice') { practiceAnswered = false; renderPractice(); }
+        if(screenId === 'screen-reflect') renderReflect();
+        if(screenId === 'screen-reset') renderReset();
+
+        const target = document.getElementById(screenId);
+        if (target) {
+            target.classList.add('active');
+            target.scrollTop = 0; // Scroll to top of inner div
+        }
+    }
+
+    function startLiveState() {
+        liveStepIndex = 0;
+        // Default to first module if opening live directly from dashboard
+        if(!activeModuleId) activeModuleId = seedModules[0].id; 
+        navTo('screen-live');
+    }
+
+    // --- DYNAMIC RENDERING ---
+
+    function renderLibrary() {
+        let html = `
+            <div class="text-center mb-8">
+                <p class="text-[10px] tracking-[0.2em] font-bold text-brand-gold uppercase mb-2">Liner Notes</p>
+                <h2 class="font-serif text-3xl font-bold text-brand-teal leading-tight">Your Tracklist<br><span class="italic font-normal">for</span> Transformation.</h2>
+                <div class="luxury-divider"></div>
+            </div>
+            <div class="flex flex-col space-y-4">
+        `;
+        seedModules.forEach((mod, idx) => {
+            html += `
+                <div onclick="navTo('screen-module', '${mod.id}')" class="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm flex items-center cursor-pointer hover:shadow-md hover:border-brand-teal transition">
+                    <div class="mr-4 text-center">
+                        <p class="text-[8px] tracking-widest font-bold text-brand-gold uppercase">Track</p>
+                        <p class="font-serif text-2xl font-bold text-brand-teal">0${idx+1}</p>
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="font-serif text-lg font-bold text-brand-teal mb-1">${mod.title}</h3>
+                        <p class="text-xs text-gray-600 line-clamp-1">${mod.purpose}</p>
+                    </div>
+                    <div class="w-8 h-8 rounded-full bg-brand-cream flex items-center justify-center text-brand-teal border border-brand-gold/30">
+                        →
+                    </div>
+                </div>
+            `;
+        });
+        html += `</div>`;
+        document.getElementById('screen-library').innerHTML = html;
+    }
+
+    function renderModuleDetails() {
+        const mod = getActiveModule();
+        // Generates the massive 14-section view required by the spec
+        let html = `
+            <button onclick="navTo('screen-library')" class="flex items-center text-brand-teal mb-4 hover:opacity-80 font-medium text-sm">
+                ${Icons.arrowLeft} <span class="ml-2">Back to Library</span>
+            </button>
+            
+            <div class="text-center mb-8">
+                <p class="text-[10px] font-bold uppercase tracking-widest text-brand-gold mb-1">Response Module</p>
+                <h2 class="text-3xl font-serif font-bold text-brand-teal mb-3">${mod.title}</h2>
+            </div>
+
+            <!-- Contextual Actions -->
+            <div class="grid grid-cols-2 gap-3 mb-8">
+                <button onclick="navTo('screen-teach')" class="bg-brand-teal text-white py-3 rounded-lg text-sm font-semibold shadow-md">Teach It</button>
+                <button onclick="startLiveState()" class="bg-brand-orange text-white py-3 rounded-lg text-sm font-semibold shadow-md">Use It Live</button>
+                <button onclick="navTo('screen-practice')" class="bg-white border border-brand-teal text-brand-teal py-3 rounded-lg text-sm font-semibold shadow-sm">Practice It</button>
+                <button onclick="navTo('screen-reflect')" class="bg-white border border-brand-gold text-brand-teal py-3 rounded-lg text-sm font-semibold shadow-sm">Reflect</button>
+            </div>
+
+            <!-- The 14 Sections Container -->
+            <div class="bg-white rounded-2xl shadow-luxury border border-brand-gold/20 p-6 mb-10">
+                
+                <!-- 1. Protects -->
+                <div class="mb-6 border-b border-gray-100 pb-4">
+                    <h3 class="font-serif font-bold text-lg text-brand-teal mb-2 flex items-center">${Icons.star} 1. What This Protects</h3>
+                    <p class="text-sm text-gray-700 leading-relaxed">${mod.purpose}</p>
+                </div>
+
+                <!-- 2. Steps -->
+                <div class="mb-6 border-b border-gray-100 pb-4">
+                    <h3 class="font-serif font-bold text-lg text-brand-teal mb-3 flex items-center">${Icons.star} 2. Student Steps</h3>
+                    <ul class="space-y-2">
+                        ${mod.studentSteps.map((step, i) => `
+                            <li class="flex items-start text-sm text-gray-700">
+                                <span class="bg-brand-gold/20 text-brand-dark rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-3 flex-shrink-0 mt-0.5">${i+1}</span>
+                                ${step}
+                            </li>
+                        `).join('')}
+                    </ul>
+                </div>
+
+                <!-- 3. Teach Script -->
+                <div class="mb-6 border-b border-gray-100 pb-4">
+                    <h3 class="font-serif font-bold text-lg text-brand-teal mb-3 flex items-center">${Icons.star} 3. Teaching Script</h3>
+                    <div class="bg-brand-cream border-l-4 border-brand-teal p-4 rounded-r-lg">
+                        <p class="font-serif italic text-brand-dark text-lg">"${mod.teacherTeachScript}"</p>
+                    </div>
+                </div>
+
+                <!-- 4-7. Response Language -->
+                <div class="mb-6 border-b border-gray-100 pb-4">
+                    <h3 class="font-serif font-bold text-lg text-brand-teal mb-3 flex items-center">${Icons.star} 4-7. Response Scripts</h3>
+                    <div class="space-y-3">
+                        <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                            <p class="text-[10px] uppercase font-bold text-brand-orange mb-1">Reminder</p>
+                            <p class="text-sm font-medium">"${mod.reminderScripts[0]}"</p>
+                        </div>
+                        <div class="bg-orange-50 p-3 rounded-lg border border-orange-100">
+                            <p class="text-[10px] uppercase font-bold text-brand-orange mb-1">Redirect</p>
+                            <p class="text-sm font-medium">"${mod.redirectScripts[0]}"</p>
+                        </div>
+                        <div class="bg-gray-50 p-3 rounded-lg border border-gray-200">
+                            <p class="text-[10px] uppercase font-bold text-gray-500 mb-1">Follow-Through</p>
+                            <p class="text-sm font-medium">"${mod.followThroughScripts[0]}"</p>
+                        </div>
+                        <div class="bg-teal-50 p-3 rounded-lg border border-teal-100">
+                            <p class="text-[10px] uppercase font-bold text-brand-teal mb-1">Repair</p>
+                            <p class="text-sm font-medium">"${mod.repairScripts[0]}"</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 8. Trap/Stronger -->
+                <div class="mb-6 border-b border-gray-100 pb-4">
+                    <h3 class="font-serif font-bold text-lg text-brand-teal mb-3 flex items-center">${Icons.star} 8. Trap / Stronger Move</h3>
+                    <div class="grid grid-cols-2 gap-2 text-sm">
+                        <div class="bg-red-50 p-3 rounded border border-red-100">
+                            <span class="text-red-700 font-bold block mb-1">Avoid:</span>
+                            <span class="line-through text-gray-500">"${mod.commonTrapStrongerMove.trap}"</span>
+                        </div>
+                        <div class="bg-brand-cream p-3 rounded border border-brand-gold/30">
+                            <span class="text-brand-teal font-bold block mb-1">Say This:</span>
+                            <span class="font-medium">"${mod.commonTrapStrongerMove.strongerMove}"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 9. Pathway -->
+                <div class="mb-6 border-b border-gray-100 pb-4">
+                    <h3 class="font-serif font-bold text-lg text-brand-teal mb-3 flex items-center">${Icons.star} 9. Response Pathway</h3>
+                    <div class="flex flex-wrap gap-2">
+                        ${mod.responsePathway.map((p, i) => `
+                            <div class="bg-brand-dark text-white px-3 py-1 rounded-full text-xs font-bold">${p.label}</div>
+                            ${i < mod.responsePathway.length -1 ? '<span class="text-gray-300">→</span>' : ''}
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- 10. Trauma Lens -->
+                <div class="mb-6 border-b border-gray-100 pb-4">
+                    <h3 class="font-serif font-bold text-lg text-brand-teal mb-3 flex items-center">${Icons.star} 10. Trauma Lens</h3>
+                    <div class="bg-brand-teal/5 p-4 rounded-lg text-sm border border-brand-teal/20">
+                        <p><strong class="text-brand-teal">Pattern:</strong> ${mod.traumaLens.pattern}</p>
+                        <p class="mt-1"><strong class="text-brand-teal">Look For:</strong> ${mod.traumaLens.lookFor}</p>
+                        <p class="mt-1"><strong class="text-brand-teal">Adult Move:</strong> ${mod.traumaLens.adultMove}</p>
+                    </div>
+                </div>
+
+                <!-- 11. Video Placeholder -->
+                <div class="mb-6 pb-4">
+                    <h3 class="font-serif font-bold text-lg text-brand-teal mb-3 flex items-center">${Icons.star} 11. Video Model</h3>
+                    <div class="w-full aspect-video bg-gray-100 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400">
+                        <svg class="w-8 h-8 mb-2" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><path d="M10 8l6 4-6 4V8z"/></svg>
+                        <span class="text-xs font-medium">Video assets loading in V2</span>
+                    </div>
+                </div>
+                
+                <p class="text-center text-xs text-gray-400 italic">Sections 12-14 (Practice, Rollout, Export) are accessed via the mode buttons above.</p>
+            </div>
+        `;
+        document.getElementById('screen-module').innerHTML = html;
+    }
+
+    function renderTeach() {
+        const mod = getActiveModule();
+        let html = `
+            <button onclick="navTo('screen-module')" class="flex items-center text-brand-teal mb-6 hover:opacity-80 font-medium text-sm">
+                ${Icons.arrowLeft} <span class="ml-2">Back to Notes</span>
+            </button>
+            <div class="bg-white rounded-3xl p-6 shadow-luxury border border-brand-gold/20">
+                <div class="text-center mb-6">
+                    <h2 class="text-[10px] font-bold uppercase tracking-widest text-brand-gold mb-1">Teach It Mode</h2>
+                    <h1 class="text-2xl font-serif font-bold text-brand-teal">${mod.title}</h1>
+                </div>
+                <h3 class="font-bold text-brand-dark uppercase text-[10px] mb-2">Teaching Script</h3>
+                <p class="font-serif text-xl text-brand-dark leading-snug italic mb-6">"${mod.teacherTeachScript}"</p>
+                <div class="bg-brand-cream border border-brand-gold/30 rounded-xl p-4 mb-4 text-sm">
+                    <p class="font-bold text-brand-teal mb-2">Student Steps:</p>
+                    <ol class="list-decimal pl-4 space-y-1 text-gray-700">
+                        ${mod.studentSteps.map(step => `<li>${step}</li>`).join('')}
+                    </ol>
+                </div>
+            </div>
+        `;
+        document.getElementById('screen-teach').innerHTML = html;
+    }
+
+    function renderLive() {
+        const mod = getActiveModule();
+        const step = mod.responsePathway[liveStepIndex];
+        
+        let script = mod.redirectScripts[0];
+        if(step.label === 'Remind') script = mod.reminderScripts[0];
+        if(step.label === 'Follow Through') script = mod.followThroughScripts[0];
+        if(step.label === 'Repair') script = mod.repairScripts[0];
+
+        let nextAction = '';
+        if (liveStepIndex < mod.responsePathway.length - 1) {
+            nextAction = `<button onclick="liveStepIndex++; renderLive();" class="w-full bg-brand-dark text-white rounded-xl py-4 font-bold text-lg">Next: ${mod.responsePathway[liveStepIndex + 1].label}</button>`;
+        } else {
+            nextAction = `<button onclick="navTo('screen-reset')" class="w-full bg-brand-orange text-white rounded-xl py-4 font-bold text-lg">Teacher Reset</button>`;
+        }
+
+        let html = `
+            <div class="flex justify-between items-center mb-6">
+                <button onclick="navTo('screen-module')" class="text-gray-500 font-semibold text-sm">Exit Live</button>
+                <button onclick="navTo('screen-reset')" class="text-brand-orange bg-orange-100 px-3 py-1 rounded-full text-xs font-bold uppercase">Reset</button>
+            </div>
+            <div class="mb-6">
+                <span class="text-xs font-bold uppercase tracking-wider text-gray-500 block mb-1">${mod.title}</span>
+                <h2 class="text-4xl font-bold text-brand-dark tracking-tight">Step: ${step.label}</h2>
+            </div>
+            
+            <div class="bg-white rounded-3xl p-6 shadow-xl border border-gray-200 mb-6 relative overflow-hidden">
+                <div class="absolute top-0 left-0 w-2 h-full bg-brand-dark"></div>
+                <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Say This</p>
+                <p class="text-3xl font-serif font-bold text-brand-dark mb-8 leading-tight">"${script}"</p>
+                
+                <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                    <p class="text-[10px] font-bold text-red-700 uppercase mb-1">Avoid This Trap</p>
+                    <p class="text-red-900 font-medium text-sm">"${mod.commonTrapStrongerMove.trap}"</p>
+                </div>
+            </div>
+            ${nextAction}
+            <p class="text-center text-xs font-bold uppercase text-gray-400 mt-6 tracking-widest">One action. One anchor.</p>
+        `;
+        document.getElementById('screen-live').innerHTML = html;
+    }
+
+    function handlePracticeAnswer(isCorrect) {
+        practiceAnswered = true;
+        practiceCorrect = isCorrect;
+        renderPractice();
+    }
+
+    function renderPractice() {
+        const mod = getActiveModule();
+        const sc = mod.practiceScenario;
+        
+        let html = `<button onclick="navTo('screen-module')" class="flex items-center text-brand-teal mb-6 font-medium text-sm">${Icons.arrowLeft} <span class="ml-2">Back</span></button>`;
+        
+        if (!practiceAnswered) {
+            html += `
+                <div class="mb-6">
+                    <h2 class="text-[10px] font-bold uppercase tracking-widest text-brand-gold mb-1">Practice Studio</h2>
+                    <h1 class="text-2xl font-serif font-bold text-brand-teal">Rehearse: ${mod.title}</h1>
+                </div>
+                <div class="bg-white p-5 rounded-xl border border-brand-gold/30 shadow-sm mb-6">
+                    <p class="text-sm text-gray-800 mb-3">${sc.scenario}</p>
+                    <div class="bg-brand-cream p-3 rounded border-l-4 border-brand-orange">
+                        <p class="text-[10px] uppercase font-bold text-brand-orange mb-1">Student says:</p>
+                        <p class="font-serif font-bold text-lg">"${sc.studentSays}"</p>
+                    </div>
+                </div>
+                <p class="text-xs font-bold text-brand-teal uppercase tracking-widest mb-3">Choose response:</p>
+                <div class="space-y-3">
+                    ${sc.choices.map(c => `
+                        <button onclick="handlePracticeAnswer(${c.isCorrect})" class="w-full text-left bg-white p-4 rounded-xl shadow-sm border border-gray-200 hover:border-brand-teal transition">
+                            <p class="font-serif text-[15px] text-brand-dark">"${c.text}"</p>
+                        </button>
+                    `).join('')}
+                </div>
+            `;
+        } else {
+            const feedbackText = practiceCorrect ? sc.choices.find(c => c.isCorrect).feedback : "This invites debate or escalates the moment. Try returning to the precise routine.";
+            html += `
+                <div class="bg-white p-6 rounded-2xl shadow-luxury border ${practiceCorrect ? 'border-brand-teal' : 'border-brand-orange'} text-center mt-10">
+                    ${practiceCorrect ? `
+                        <div class="mb-6 flex justify-center"><div class="i-to-t-container transformed"><div class="letter-top"></div><div class="letter-stem"></div><div class="letter-bottom"></div></div></div>
+                        <h3 class="text-xl font-serif font-bold text-brand-teal mb-2">The Mastered Flow</h3>
+                    ` : `
+                        <h3 class="text-xl font-serif font-bold text-brand-orange mb-2">Scratched Record</h3>
+                    `}
+                    <p class="text-sm text-gray-700 mb-6">${feedbackText}</p>
+                    <div class="space-y-3">
+                        ${!practiceCorrect ? `<button onclick="practiceAnswered=false; renderPractice();" class="w-full bg-brand-dark text-white py-3 rounded-lg font-bold text-sm">Try Again</button>` : ''}
+                        <button onclick="navTo('screen-module')" class="w-full bg-brand-cream text-brand-teal py-3 rounded-lg font-bold text-sm border border-brand-gold/30">Back to Module</button>
+                    </div>
+                </div>
+            `;
+            // Trigger animation
+            if(practiceCorrect) {
+                setTimeout(() => {
+                    const c = document.querySelector('.i-to-t-container');
+                    if(c) { c.classList.remove('transformed'); setTimeout(() => c.classList.add('transformed'), 100); }
+                }, 50);
+            }
+        }
+        document.getElementById('screen-practice').innerHTML = html;
+    }
+
+    function renderReflect() {
+        const mod = getActiveModule();
+        let html = `
+            <button onclick="navTo('screen-module')" class="flex items-center text-brand-teal mb-4 font-medium text-sm hidden-print">${Icons.arrowLeft} <span class="ml-2">Back</span></button>
+            <div class="bg-white rounded-2xl p-6 shadow-luxury border border-brand-gold/30">
+                <div class="mb-6 border-b border-brand-gold/20 pb-4">
+                    <h2 class="text-[10px] font-bold uppercase tracking-widest text-brand-gold mb-1">Reflect & Report</h2>
+                    <h1 class="text-2xl font-serif font-bold text-brand-teal">${mod.title}</h1>
+                </div>
+                <form class="space-y-4" onsubmit="event.preventDefault(); window.print();">
+                    <div>
+                        <label class="block text-xs font-bold text-brand-dark mb-1">What happened?</label>
+                        <textarea class="w-full border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-brand-teal" rows="2" placeholder="Describe the moment..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-brand-dark mb-1">Script Used</label>
+                        <select class="w-full border border-gray-200 rounded-lg p-3 text-sm outline-none">
+                            <option>Reminder</option><option>Redirect</option><option>Follow-through</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-brand-dark mb-1">What Worked?</label>
+                        <input type="text" class="w-full border border-gray-200 rounded-lg p-3 text-sm outline-none" placeholder="e.g. Lowered volume">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-brand-dark mb-1">Next Step / Support</label>
+                        <textarea class="w-full border border-gray-200 rounded-lg p-3 text-sm outline-none focus:border-brand-teal" rows="2" placeholder="Repair needed?"></textarea>
+                    </div>
+                    <button type="submit" class="w-full bg-brand-teal text-white py-3 rounded-lg font-bold text-sm mt-4 hidden-print">Export PDF Report</button>
+                </form>
+            </div>
+            <style>@media print { body{background:white;} .hidden-print{display:none;} }</style>
+        `;
+        document.getElementById('screen-reflect').innerHTML = html;
+    }
+
+    function renderReset() {
+        let html = `
+            <div class="w-full max-w-xs text-center flex flex-col items-center">
+                <h2 class="text-xs font-bold uppercase tracking-widest text-brand-teal mb-10">Teacher Reset</h2>
+                <div class="breathing-circle mb-10 relative">
+                    <div class="absolute text-brand-teal/40 w-8 h-8"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg></div>
+                </div>
+                <p class="font-serif text-3xl font-bold text-brand-dark mb-3">Pause.</p>
+                <p class="text-gray-600 text-sm font-medium mb-10 leading-relaxed">Lower your volume.<br>Reduce your words.<br>Return to the routine.</p>
+                <div class="bg-white rounded-xl p-5 w-full shadow-md border border-gray-200 mb-8">
+                    <p class="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-2">Self-Talk Anchor</p>
+                    <p class="font-serif text-lg font-bold text-brand-teal leading-snug">"One expected action. One anchor. Then monitor."</p>
+                </div>
+                <button onclick="startLiveState()" class="text-gray-500 font-bold text-sm underline decoration-gray-300 underline-offset-4">Return to Live</button>
+            </div>
+        `;
+        document.getElementById('screen-reset').innerHTML = html;
+    }
+
+    // Initialize App
+    navTo('screen-splash');
+</script>
+
+</body>
+</html>
