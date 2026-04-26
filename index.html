@@ -139,6 +139,10 @@
         .letter-top { width: 16px; } .letter-bottom { width: 16px; opacity: 1; }
         .transformed .letter-top { width: 44px; } .transformed .letter-bottom { width: 0px; opacity: 0; }
 
+        /* App Specific Utilities */
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+
         /* Pulse Hitbox Animation for interactive images */
         .pulse-hitbox {
             animation: pulse-glow 2.5s infinite;
@@ -438,6 +442,7 @@
     let liveStepIndex = 0;
     let practiceAnswered = false;
     let practiceCorrect = false;
+    let currentModuleTab = 'basics'; // Tracks the active tab in Module Details
 
     // ICONS
     const Icons = {
@@ -470,7 +475,7 @@
 
         // Render target content where appropriate
         if(screenId === 'screen-library') renderLibrary();
-        if(screenId === 'screen-module') renderModuleDetails();
+        if(screenId === 'screen-module') { currentModuleTab = 'basics'; renderModuleDetails(); }
         if(screenId === 'screen-teach') renderTeach();
         if(screenId === 'screen-live') renderLive();
         if(screenId === 'screen-practice') { practiceAnswered = false; renderPractice(); }
@@ -518,41 +523,58 @@
         listDiv.innerHTML = html;
     }
 
+    function setModuleTab(tab) {
+        currentModuleTab = tab;
+        renderModuleDetails();
+    }
+
     function renderModuleDetails() {
         const mod = getActiveModule();
         const container = document.querySelector('#screen-module .content-wrapper');
         
-        container.innerHTML = `
+        let html = `
             <button onclick="navTo('screen-library')" class="flex items-center text-brand-teal mb-6 hover:opacity-80 font-medium transition">
                 ${Icons.arrowLeft} <span class="ml-2">Back to Library</span>
             </button>
             
-            <div class="text-center mb-10">
+            <div class="text-center mb-8">
                 <p class="text-xs font-bold uppercase tracking-widest text-brand-gold mb-2">Response Module</p>
-                <h2 class="text-4xl font-serif font-bold text-brand-teal mb-4">${mod.title}</h2>
-                <p class="text-sm md:text-base text-gray-600 max-w-2xl mx-auto">${mod.purpose}</p>
+                <h2 class="text-4xl font-serif font-bold text-brand-teal mb-3">${mod.title}</h2>
+                <p class="text-sm md:text-base text-gray-600 max-w-2xl mx-auto line-clamp-2">${mod.purpose}</p>
             </div>
 
             <!-- Contextual Actions -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-8">
                 <button onclick="navTo('screen-teach')" class="bg-brand-teal text-white py-3 rounded-xl text-sm font-semibold shadow-luxury hover:bg-brand-teal-light transition">Teach It</button>
                 <button onclick="startLiveState()" class="bg-gradient-to-r from-brand-orange to-[#e56a17] text-white py-3 rounded-xl text-sm font-semibold shadow-luxury hover:opacity-90 transition">Use It Live</button>
                 <button onclick="navTo('screen-practice-intro')" class="bg-white border-2 border-brand-teal text-brand-teal py-3 rounded-xl text-sm font-semibold shadow-sm hover:bg-brand-teal hover:text-white transition">Practice It</button>
                 <button onclick="navTo('screen-reflect')" class="bg-white border border-brand-gold text-brand-teal py-3 rounded-xl text-sm font-semibold shadow-sm hover:bg-brand-cream transition">Reflect</button>
             </div>
 
-            <!-- The Full 14 Sections -->
+            <!-- Tabbed Interface for the 14 Sections -->
             <div class="bg-white rounded-3xl shadow-luxury border border-brand-gold/20 overflow-hidden">
-                <div class="p-6 md:p-10 space-y-10">
-                    
-                    <!-- 1. Protects -->
+                
+                <!-- Pill Navigation -->
+                <div class="flex overflow-x-auto hide-scrollbar space-x-2 p-4 border-b border-gray-100 bg-gray-50/50">
+                    <button onclick="setModuleTab('basics')" class="px-5 py-2.5 rounded-full whitespace-nowrap text-xs font-bold transition-all ${currentModuleTab === 'basics' ? 'bg-brand-teal text-white shadow-md' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}">1-2. Basics</button>
+                    <button onclick="setModuleTab('scripts')" class="px-5 py-2.5 rounded-full whitespace-nowrap text-xs font-bold transition-all ${currentModuleTab === 'scripts' ? 'bg-brand-teal text-white shadow-md' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}">3-7. Scripts</button>
+                    <button onclick="setModuleTab('strategy')" class="px-5 py-2.5 rounded-full whitespace-nowrap text-xs font-bold transition-all ${currentModuleTab === 'strategy' ? 'bg-brand-teal text-white shadow-md' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}">8-10. Strategy</button>
+                    <button onclick="setModuleTab('video')" class="px-5 py-2.5 rounded-full whitespace-nowrap text-xs font-bold transition-all ${currentModuleTab === 'video' ? 'bg-brand-teal text-white shadow-md' : 'bg-white border border-gray-200 text-gray-600 hover:bg-gray-50'}">11. Video</button>
+                </div>
+
+                <!-- Tab Content Area -->
+                <div class="p-6 md:p-8 min-h-[380px]">
+        `;
+
+        // TAB 1: BASICS
+        if (currentModuleTab === 'basics') {
+            html += `
+                <div class="space-y-8 animate-[fadeIn_0.2s_ease-out]">
                     <div>
                         <h3 class="font-serif font-bold text-xl text-brand-teal mb-3 flex items-center">${Icons.star} 1. What This Routine Protects</h3>
                         <p class="text-base text-gray-700 leading-relaxed ml-8">${mod.purpose}</p>
                     </div>
-
-                    <!-- 2. Steps -->
-                    <div class="border-t border-gray-100 pt-8">
+                    <div class="border-t border-gray-100 pt-6">
                         <h3 class="font-serif font-bold text-xl text-brand-teal mb-4 flex items-center">${Icons.star} 2. Student Steps</h3>
                         <ul class="space-y-3 ml-8">
                             ${mod.studentSteps.map((step, i) => `
@@ -563,120 +585,114 @@
                             `).join('')}
                         </ul>
                     </div>
-
-                    <!-- 3. Teach Script -->
-                    <div class="border-t border-gray-100 pt-8">
+                </div>
+            `;
+        }
+        
+        // TAB 2: SCRIPTS
+        else if (currentModuleTab === 'scripts') {
+            html += `
+                <div class="space-y-8 animate-[fadeIn_0.2s_ease-out]">
+                    <div>
                         <h3 class="font-serif font-bold text-xl text-brand-teal mb-4 flex items-center">${Icons.star} 3. Teacher Teaching Script</h3>
-                        <div class="bg-brand-cream border-l-4 border-brand-teal p-6 rounded-r-xl ml-8">
-                            <p class="font-serif italic text-brand-dark text-xl leading-snug">"${mod.teacherTeachScript}"</p>
+                        <div class="bg-brand-cream border-l-4 border-brand-teal p-5 rounded-r-xl ml-8">
+                            <p class="font-serif italic text-brand-dark text-lg leading-snug">"${mod.teacherTeachScript}"</p>
                         </div>
                     </div>
-
-                    <!-- 4-7. Response Language -->
-                    <div class="border-t border-gray-100 pt-8">
+                    <div class="border-t border-gray-100 pt-6">
                         <h3 class="font-serif font-bold text-xl text-brand-teal mb-4 flex items-center">${Icons.star} 4-7. Response Scripts</h3>
-                        <div class="space-y-4 ml-8">
-                            <div class="bg-orange-50 p-4 rounded-xl border border-orange-100">
-                                <p class="text-xs uppercase font-bold text-brand-orange mb-2">4. Reminder Scripts</p>
-                                <ul class="space-y-2">
-                                    ${mod.reminderScripts.map(s => `<li class="font-medium text-brand-dark">"${s}"</li>`).join('')}
-                                </ul>
+                        <div class="space-y-3 ml-8">
+                            <div class="bg-orange-50 p-4 rounded-xl border border-orange-100 flex flex-col md:flex-row md:items-center">
+                                <p class="text-[10px] uppercase font-bold text-brand-orange w-32 shrink-0">4. Reminder</p>
+                                <p class="font-medium text-brand-dark flex-grow">"${mod.reminderScripts[0]}"</p>
                             </div>
-                            <div class="bg-orange-50 p-4 rounded-xl border border-orange-100">
-                                <p class="text-xs uppercase font-bold text-brand-orange mb-2">5. Redirect Scripts</p>
-                                <ul class="space-y-2">
-                                    ${mod.redirectScripts.map(s => `<li class="font-medium text-brand-dark">"${s}"</li>`).join('')}
-                                </ul>
+                            <div class="bg-orange-50 p-4 rounded-xl border border-orange-100 flex flex-col md:flex-row md:items-center">
+                                <p class="text-[10px] uppercase font-bold text-brand-orange w-32 shrink-0">5. Redirect</p>
+                                <p class="font-medium text-brand-dark flex-grow">"${mod.redirectScripts[0]}"</p>
                             </div>
-                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                                <p class="text-xs uppercase font-bold text-gray-500 mb-2">6. Follow-Through Scripts</p>
-                                <ul class="space-y-2">
-                                    ${mod.followThroughScripts.map(s => `<li class="font-medium text-brand-dark">"${s}"</li>`).join('')}
-                                </ul>
+                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200 flex flex-col md:flex-row md:items-center">
+                                <p class="text-[10px] uppercase font-bold text-gray-500 w-32 shrink-0">6. Follow-Through</p>
+                                <p class="font-medium text-brand-dark flex-grow">"${mod.followThroughScripts[0]}"</p>
                             </div>
-                            <div class="bg-teal-50 p-4 rounded-xl border border-teal-100">
-                                <p class="text-xs uppercase font-bold text-brand-teal mb-2">7. Repair Scripts</p>
-                                <ul class="space-y-2">
-                                    ${mod.repairScripts.map(s => `<li class="font-medium text-brand-dark">"${s}"</li>`).join('')}
-                                </ul>
+                            <div class="bg-teal-50 p-4 rounded-xl border border-teal-100 flex flex-col md:flex-row md:items-center">
+                                <p class="text-[10px] uppercase font-bold text-brand-teal w-32 shrink-0">7. Repair</p>
+                                <p class="font-medium text-brand-dark flex-grow">"${mod.repairScripts[0]}"</p>
                             </div>
                         </div>
                     </div>
+                </div>
+            `;
+        }
 
-                    <!-- 8. Trap/Stronger -->
-                    <div class="border-t border-gray-100 pt-8">
+        // TAB 3: STRATEGY
+        else if (currentModuleTab === 'strategy') {
+            html += `
+                <div class="space-y-8 animate-[fadeIn_0.2s_ease-out]">
+                    <div>
                         <h3 class="font-serif font-bold text-xl text-brand-teal mb-4 flex items-center">${Icons.star} 8. Common Trap / Stronger Move</h3>
                         <div class="grid md:grid-cols-2 gap-4 ml-8">
-                            <div class="bg-red-50 p-5 rounded-xl border border-red-100 shadow-sm">
-                                <span class="text-red-700 font-bold block mb-2 text-sm uppercase tracking-wider">Avoid This Trap:</span>
-                                <span class="line-through text-gray-500 text-lg font-serif">"${mod.commonTrapStrongerMove.trap}"</span>
+                            <div class="bg-red-50 p-4 rounded-xl border border-red-100">
+                                <span class="text-red-700 font-bold block mb-1 text-xs uppercase tracking-wider">Avoid This Trap:</span>
+                                <span class="line-through text-gray-500 text-base font-serif">"${mod.commonTrapStrongerMove.trap}"</span>
                             </div>
-                            <div class="bg-brand-cream p-5 rounded-xl border border-brand-gold/30 shadow-sm">
-                                <span class="text-brand-teal font-bold block mb-2 text-sm uppercase tracking-wider">Say This Instead:</span>
-                                <span class="font-medium text-brand-dark text-lg font-serif">"${mod.commonTrapStrongerMove.strongerMove}"</span>
+                            <div class="bg-brand-cream p-4 rounded-xl border border-brand-gold/30">
+                                <span class="text-brand-teal font-bold block mb-1 text-xs uppercase tracking-wider">Say This Instead:</span>
+                                <span class="font-medium text-brand-dark text-base font-serif">"${mod.commonTrapStrongerMove.strongerMove}"</span>
                             </div>
                         </div>
                     </div>
-
-                    <!-- 9. Pathway -->
-                    <div class="border-t border-gray-100 pt-8">
+                    <div class="border-t border-gray-100 pt-6">
                         <h3 class="font-serif font-bold text-xl text-brand-teal mb-4 flex items-center">${Icons.star} 9. Response Pathway</h3>
-                        <div class="flex flex-wrap items-center gap-3 ml-8">
+                        <div class="flex flex-wrap items-center gap-2 ml-8">
                             ${mod.responsePathway.map((p, i) => `
-                                <div class="bg-brand-dark text-white px-4 py-2 rounded-full text-sm font-bold shadow-md">${p.label}</div>
-                                ${i < mod.responsePathway.length -1 ? '<span class="text-gray-400 font-bold">→</span>' : ''}
+                                <div class="bg-brand-dark text-white px-3 py-1.5 rounded-full text-xs font-bold">${p.label}</div>
+                                ${i < mod.responsePathway.length -1 ? '<span class="text-gray-400 font-bold text-sm">→</span>' : ''}
                             `).join('')}
                         </div>
                     </div>
-
-                    <!-- 10. Trauma Lens -->
-                    <div class="border-t border-gray-100 pt-8">
+                    <div class="border-t border-gray-100 pt-6">
                         <h3 class="font-serif font-bold text-xl text-brand-teal mb-4 flex items-center">${Icons.star} 10. Trauma-Response Lens</h3>
-                        <div class="bg-brand-teal/5 p-6 rounded-xl border border-brand-teal/20 ml-8">
-                            <div class="mb-3"><strong class="text-brand-teal block text-xs uppercase tracking-wider mb-1">Pattern:</strong> <span class="text-gray-800 text-lg">${mod.traumaLens.pattern}</span></div>
-                            <div class="mb-3"><strong class="text-brand-teal block text-xs uppercase tracking-wider mb-1">Look For:</strong> <span class="text-gray-800">${mod.traumaLens.lookFor}</span></div>
-                            <div><strong class="text-brand-teal block text-xs uppercase tracking-wider mb-1">Adult Move:</strong> <span class="text-gray-800 font-medium">${mod.traumaLens.adultMove}</span></div>
+                        <div class="bg-brand-teal/5 p-5 rounded-xl border border-brand-teal/20 ml-8 text-sm">
+                            <div class="mb-2"><strong class="text-brand-teal uppercase text-[10px] tracking-wider">Pattern:</strong> <span class="text-gray-800">${mod.traumaLens.pattern}</span></div>
+                            <div class="mb-2"><strong class="text-brand-teal uppercase text-[10px] tracking-wider">Look For:</strong> <span class="text-gray-800">${mod.traumaLens.lookFor}</span></div>
+                            <div><strong class="text-brand-teal uppercase text-[10px] tracking-wider">Adult Move:</strong> <span class="text-gray-800 font-medium">${mod.traumaLens.adultMove}</span></div>
                         </div>
                     </div>
-
-                    <!-- 11. Video -->
-                    <div class="border-t border-gray-100 pt-8">
-                        <h3 class="font-serif font-bold text-xl text-brand-teal mb-4 flex items-center">${Icons.star} 11. Video Model</h3>
-                        <div class="ml-8 w-full max-w-2xl aspect-video bg-gray-50 rounded-2xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center text-gray-400 hover:bg-gray-100 transition cursor-pointer">
-                            <svg class="w-12 h-12 mb-3 text-brand-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2" ry="2"/><path d="M10 8l6 4-6 4V8z"/></svg>
-                            <span class="text-sm font-bold uppercase tracking-widest text-gray-500">Video Integration (V2)</span>
-                        </div>
+                    <div class="border-t border-gray-100 pt-6">
+                        <h3 class="font-serif font-bold text-xl text-brand-teal mb-3 flex items-center">${Icons.star} 13. Rollout Checklist</h3>
+                        <ul class="space-y-2 text-sm text-gray-600 ml-8 flex flex-wrap gap-4">
+                            <li class="flex items-center">${Icons.check} Taught explicitly</li>
+                            <li class="flex items-center">${Icons.check} Anchor posted</li>
+                            <li class="flex items-center">${Icons.check} Practiced live</li>
+                        </ul>
                     </div>
+                </div>
+            `;
+        }
 
-                    <!-- 12, 13, 14 Sections -->
-                    <div class="border-t border-brand-gold/30 pt-8 bg-brand-cream -mx-6 md:-mx-10 px-6 md:px-10 -mb-6 md:-mb-10 pb-10">
-                        <h3 class="font-serif font-bold text-xl text-brand-teal mb-6">Implementation Toolkit</h3>
-                        
-                        <div class="grid md:grid-cols-3 gap-6">
-                            <div class="bg-white p-5 rounded-xl shadow-sm border border-brand-gold/20">
-                                <h4 class="font-bold text-brand-dark mb-2">12. Practice Scenario</h4>
-                                <p class="text-sm text-gray-600 mb-4">Rehearse this specific response pathway before you need it.</p>
-                                <button onclick="navTo('screen-practice-intro')" class="text-brand-teal font-bold text-sm hover:underline">Start Practice →</button>
-                            </div>
-                            <div class="bg-white p-5 rounded-xl shadow-sm border border-brand-gold/20">
-                                <h4 class="font-bold text-brand-dark mb-2">13. Rollout Checklist</h4>
-                                <ul class="space-y-2 text-sm text-gray-600">
-                                    <li class="flex items-center">${Icons.check} Taught explicitly</li>
-                                    <li class="flex items-center">${Icons.check} Anchor posted</li>
-                                    <li class="flex items-center">${Icons.check} Practiced live</li>
-                                </ul>
-                            </div>
-                            <div class="bg-white p-5 rounded-xl shadow-sm border border-brand-gold/20">
-                                <h4 class="font-bold text-brand-dark mb-2">14. Reflection Export</h4>
-                                <p class="text-sm text-gray-600 mb-4">Turn implementation into structured coaching evidence.</p>
-                                <button onclick="navTo('screen-reflect')" class="text-brand-teal font-bold text-sm hover:underline">Open Report →</button>
-                            </div>
-                        </div>
+        // TAB 4: VIDEO SUMMARY
+        else if (currentModuleTab === 'video') {
+            html += `
+                <div class="flex flex-col items-center justify-center text-center h-full animate-[fadeIn_0.2s_ease-out] py-4">
+                    <div class="w-16 h-16 bg-brand-cream text-brand-teal rounded-full flex items-center justify-center mb-6 shadow-sm border border-brand-gold/30">
+                        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
                     </div>
+                    <h3 class="font-serif font-bold text-2xl text-brand-dark mb-4">11. The Video Model</h3>
+                    <p class="text-gray-600 mb-8 leading-relaxed max-w-md">Watch a master teacher execute this specific response pathway in a simulated classroom environment. Notice the body language, tone, and pacing used to de-escalate the moment and seamlessly return students to the routine.</p>
+                    
+                    <button class="bg-brand-dark text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-luxury hover:bg-gray-800 transition w-full max-w-xs" onclick="alert('Video player launching...')">
+                        <span>Watch Master Execution</span>
+                    </button>
+                </div>
+            `;
+        }
 
+        html += `
                 </div>
             </div>
         `;
+        
+        container.innerHTML = html;
     }
 
     function renderTeach() {
