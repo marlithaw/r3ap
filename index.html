@@ -46,14 +46,15 @@
         html, body {
             margin: 0; padding: 0;
             width: 100%; height: 100%;
-            overflow: hidden; /* Prevent body scroll, handle scroll in app container */
-            background-color: #f8f5ef;
+            overflow: hidden; 
+            background-color: #000; /* Dark background for the image borders */
             -webkit-font-smoothing: antialiased;
         }
 
-        /* App Container - Fills Viewport Natively */
+        /* App Container */
         #app {
             width: 100vw; height: 100vh;
+            height: 100dvh;
             display: flex; flex-direction: column;
             position: relative;
             transition: background-color 0.3s ease;
@@ -64,8 +65,13 @@
             flex: 1;
             overflow-y: auto;
             overflow-x: hidden;
-            padding-bottom: 90px; /* Space for fixed bottom nav */
             scroll-behavior: smooth;
+            padding-bottom: 80px; /* Space for fixed bottom nav */
+        }
+
+        /* Safe area padding for mobile navigation */
+        .nav-safe-bottom {
+            padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
         }
 
         .screen {
@@ -77,6 +83,7 @@
         .screen.active { display: block; }
         
         .studio-background {
+            background-color: #f8f5ef;
             background-image: radial-gradient(circle at 50% 0%, #ffffff 0%, transparent 60%);
         }
 
@@ -113,16 +120,6 @@
             content: ''; height: 1px; width: 30px; background-color: #c09e6c; margin: 0 10px;
         }
 
-        /* The Remix Cassette Art (Responsive) */
-        .cassette-body {
-            background: linear-gradient(135deg, #2ebfbf 0%, #128282 100%);
-            border-radius: 12px; padding: 10px; box-shadow: 0 15px 30px rgba(18, 130, 130, 0.3); position: relative;
-            width: 100%; max-width: 320px; margin: 0 auto;
-        }
-        .cassette-label { background: #fff9f0; border-radius: 6px; padding: 15px 10px; border: 1px solid #dfc59a; }
-        .cassette-spools { display: flex; justify-content: center; gap: 20px; background: #1a1a1a; padding: 10px; border-radius: 4px; margin: 10px 0; }
-        .spool { width: 30px; height: 30px; border-radius: 50%; background: #dfc59a; border: 4px solid #fff; position: relative; }
-        
         /* Teacher Reset Animation */
         .breathing-circle {
             width: 200px; height: 200px; border-radius: 50%; border: 2px solid #0f5b5b;
@@ -141,6 +138,16 @@
         .letter-stem { width: 4px; height: 35px; background-color: #c09e6c; border-radius: 2px; }
         .letter-top { width: 16px; } .letter-bottom { width: 16px; opacity: 1; }
         .transformed .letter-top { width: 44px; } .transformed .letter-bottom { width: 0px; opacity: 0; }
+
+        /* Pulse Hitbox Animation for interactive images */
+        .pulse-hitbox {
+            animation: pulse-glow 2.5s infinite;
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
     </style>
 </head>
 <body>
@@ -152,35 +159,20 @@
         
         <!-- ==========================================
              SCREEN: SPLASH / WELCOME 
+             Using provided actual image mockup
              ========================================== -->
-        <div id="screen-splash" class="screen active studio-background">
-            <div class="content-wrapper min-h-full flex flex-col justify-center items-center py-12">
-                <div class="text-center mb-8">
-                    <h1 class="font-serif text-4xl md:text-5xl font-bold text-brand-teal tracking-wide">R³.A.P.</h1>
-                    <p class="text-xs md:text-sm tracking-[0.2em] font-semibold text-brand-gold mt-2 uppercase">Response Studio</p>
-                </div>
-                
-                <div class="w-full mb-10">
-                    <div class="cassette-body">
-                        <div class="cassette-label text-center">
-                            <h2 class="font-serif italic font-bold text-2xl text-brand-dark mb-1">THE REMIX</h2>
-                            <div class="w-full h-[1px] bg-gray-300 mb-1"></div>
-                            <div class="cassette-spools"><div class="spool"></div><div class="spool"></div></div>
-                            <div class="w-full h-[2px] bg-brand-teal mt-2 mb-1"></div>
-                            <p class="text-[10px] font-bold tracking-widest text-brand-teal">R³.A.P. MVP</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="text-center mb-10">
-                    <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-dark mb-3">Welcome,<br><span class="italic text-brand-gold">Producer.</span></h2>
-                    <p class="text-sm md:text-base font-medium text-brand-dark max-w-sm mx-auto">Predictable adult responses for high-stress classroom moments.</p>
-                </div>
-
-                <div class="w-full max-w-sm">
-                    <button onclick="navTo('screen-dashboard')" class="w-full btn-luxury rounded-full py-4 flex items-center justify-center space-x-2">
-                        <svg class="w-6 h-6 text-brand-gold" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-                        <span class="font-semibold text-lg tracking-wide">Press Play</span>
+        <div id="screen-splash" class="screen active bg-black">
+            <div class="h-full w-full flex items-center justify-center p-0">
+                <div class="relative w-full h-full max-w-md mx-auto aspect-[9/19.5]">
+                    <!-- The Provided Image -->
+                    <img src="Welcome Screen.jpg" class="w-full h-full object-contain object-center pointer-events-none" alt="Welcome to RAP">
+                    
+                    <!-- Interactive Button Hitbox mapped perfectly over the "Press Play" graphic -->
+                    <button onclick="navTo('screen-dashboard')" 
+                            class="absolute w-[68%] h-[8%] bottom-[16%] left-1/2 transform -translate-x-1/2 
+                                   bg-white/0 hover:bg-white/20 active:bg-white/30 transition-all duration-300 rounded-[2rem] 
+                                   focus:outline-none pulse-hitbox border border-white/20"
+                            aria-label="Press Play to Enter">
                     </button>
                 </div>
             </div>
@@ -205,7 +197,7 @@
                     <div class="text-brand-gold">Status: Studio Active</div>
                 </div>
 
-                <!-- Dashboard Grid (Responsive) -->
+                <!-- Dashboard Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <button onclick="startLiveState()" class="bg-gradient-to-r from-brand-orange to-[#e56a17] text-white rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:opacity-95 transition text-left">
                         <div>
@@ -223,7 +215,8 @@
                         <div class="text-brand-teal bg-brand-cream p-3 rounded-full"><svg class="w-5 h-5 icon-svg" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg></div>
                     </button>
 
-                    <button onclick="navTo('screen-library')" class="bg-white border border-brand-gold/30 rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:border-brand-teal transition text-left">
+                    <!-- Navigates to Intro Image before Practice -->
+                    <button onclick="navTo('screen-practice-intro')" class="bg-white border border-brand-gold/30 rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:border-brand-teal transition text-left">
                         <div>
                             <h3 class="font-serif text-xl font-bold text-brand-teal mb-1">Practice Scenarios</h3>
                             <p class="text-xs text-gray-500 uppercase tracking-wider font-bold">Rehearse</p>
@@ -231,7 +224,7 @@
                         <div class="text-brand-teal bg-brand-cream p-3 rounded-full"><svg class="w-5 h-5 icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg></div>
                     </button>
 
-                    <button onclick="navTo('screen-library')" class="bg-white border border-brand-gold/30 rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:border-brand-teal transition text-left">
+                    <button onclick="navTo('screen-reflect')" class="bg-white border border-brand-gold/30 rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:border-brand-teal transition text-left">
                         <div>
                             <h3 class="font-serif text-xl font-bold text-brand-teal mb-1">Track & Reflect</h3>
                             <p class="text-xs text-gray-500 uppercase tracking-wider font-bold">Export Evidence</p>
@@ -287,6 +280,30 @@
         </div>
 
         <!-- ==========================================
+             SCREEN: PRACTICE INTRO
+             Uses the "Lift The Needle" custom image mockup
+             ========================================== -->
+        <div id="screen-practice-intro" class="screen bg-black">
+            <div class="h-full w-full flex items-center justify-center p-0 relative">
+                <div class="relative w-full h-full max-w-md mx-auto aspect-[9/19.5]">
+                    <!-- Top hidden back button map just to be safe if user wants to exit -->
+                    <button onclick="navTo('screen-dashboard')" class="absolute z-10 top-[6%] left-[6%] w-[15%] h-[5%] rounded-full focus:outline-none"></button>
+                    
+                    <!-- The Provided Image -->
+                    <img src="Lift the needle on the Scractched Record.jpg" class="w-full h-full object-contain object-center pointer-events-none" alt="Lift the Needle">
+                    
+                    <!-- Interactive Button Hitbox mapped perfectly over the "Lift The Needle" graphic -->
+                    <button onclick="navTo('screen-practice')" 
+                            class="absolute w-[80%] h-[8%] bottom-[12%] left-1/2 transform -translate-x-1/2 
+                                   bg-white/0 hover:bg-white/20 active:bg-white/30 transition-all duration-300 rounded-[2rem] 
+                                   focus:outline-none pulse-hitbox border border-white/20"
+                            aria-label="Lift the needle and begin practice">
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==========================================
              SCREEN: PRACTICE MODE
              ========================================== -->
         <div id="screen-practice" class="screen studio-background">
@@ -318,24 +335,24 @@
     <!-- ==========================================
          FIXED BOTTOM NAVIGATION 
          ========================================== -->
-    <nav class="absolute bottom-0 left-0 w-full bg-white border-t border-brand-gold/20 flex justify-around items-center pb-safe pt-3 pb-3 shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-50">
-        <button onclick="navTo('screen-dashboard')" class="flex flex-col items-center text-brand-dark hover:text-brand-teal transition">
+    <nav id="main-nav" class="fixed bottom-0 left-0 w-full bg-white border-t border-brand-gold/20 flex justify-around items-end pt-3 nav-safe-bottom shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-[100] hidden">
+        <button onclick="navTo('screen-dashboard')" class="flex-1 flex flex-col items-center text-brand-dark hover:text-brand-teal transition pb-1">
             <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-            <span class="text-[10px] font-bold uppercase tracking-wider">Studio</span>
+            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Studio</span>
         </button>
-        <button onclick="navTo('screen-library')" class="flex flex-col items-center text-brand-dark hover:text-brand-teal transition">
+        <button onclick="navTo('screen-library')" class="flex-1 flex flex-col items-center text-brand-dark hover:text-brand-teal transition pb-1">
             <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
-            <span class="text-[10px] font-bold uppercase tracking-wider">Library</span>
+            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Library</span>
         </button>
-        <button onclick="startLiveState()" class="flex flex-col items-center text-brand-orange hover:opacity-80 transition transform -translate-y-2">
+        <button onclick="startLiveState()" class="flex-1 flex flex-col items-center text-brand-orange hover:opacity-80 transition transform -translate-y-2">
             <div class="bg-brand-orange text-white p-3 rounded-full shadow-lg border-2 border-white">
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             </div>
-            <span class="text-[10px] font-bold uppercase tracking-wider mt-1">Live</span>
+            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider mt-1 whitespace-nowrap">Live</span>
         </button>
-        <button onclick="navTo('screen-library')" class="flex flex-col items-center text-brand-dark hover:text-brand-teal transition">
+        <button onclick="navTo('screen-practice-intro')" class="flex-1 flex flex-col items-center text-brand-dark hover:text-brand-teal transition pb-1">
             <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-            <span class="text-[10px] font-bold uppercase tracking-wider">Practice</span>
+            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Practice</span>
         </button>
     </nav>
 
@@ -449,18 +466,23 @@
     function navTo(screenId, moduleId = null) {
         if (moduleId) activeModuleId = moduleId;
         
-        // Handle visual states (Live vs Studio) dynamically
-        const appBg = document.getElementById('app');
-        if (screenId === 'screen-live' || screenId === 'screen-reset') {
-            appBg.style.backgroundColor = '#f9f9f7'; // Live State BG
-        } else {
-            appBg.style.backgroundColor = '#f8f5ef'; // Studio State BG
-        }
-
-        // Hide all, show target
+        // Hide all screens
         document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
         
-        // Render target content
+        // Toggle the visibility of the bottom nav based on active screen
+        // Fullscreen mockup images shouldn't show the bottom nav overlaying them
+        const bottomNav = document.getElementById('main-nav');
+        const scrollContainer = document.getElementById('screens-container');
+        
+        if (screenId === 'screen-splash' || screenId === 'screen-practice-intro') {
+            bottomNav.style.display = 'none';
+            scrollContainer.style.paddingBottom = '0px';
+        } else {
+            bottomNav.style.display = 'flex';
+            scrollContainer.style.paddingBottom = '80px';
+        }
+
+        // Render target content where appropriate
         if(screenId === 'screen-library') renderLibrary();
         if(screenId === 'screen-module') renderModuleDetails();
         if(screenId === 'screen-teach') renderTeach();
@@ -529,7 +551,7 @@
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
                 <button onclick="navTo('screen-teach')" class="bg-brand-teal text-white py-3 rounded-xl text-sm font-semibold shadow-luxury hover:bg-brand-teal-light transition">Teach It</button>
                 <button onclick="startLiveState()" class="bg-gradient-to-r from-brand-orange to-[#e56a17] text-white py-3 rounded-xl text-sm font-semibold shadow-luxury hover:opacity-90 transition">Use It Live</button>
-                <button onclick="navTo('screen-practice')" class="bg-white border-2 border-brand-teal text-brand-teal py-3 rounded-xl text-sm font-semibold shadow-sm hover:bg-brand-teal hover:text-white transition">Practice It</button>
+                <button onclick="navTo('screen-practice-intro')" class="bg-white border-2 border-brand-teal text-brand-teal py-3 rounded-xl text-sm font-semibold shadow-sm hover:bg-brand-teal hover:text-white transition">Practice It</button>
                 <button onclick="navTo('screen-reflect')" class="bg-white border border-brand-gold text-brand-teal py-3 rounded-xl text-sm font-semibold shadow-sm hover:bg-brand-cream transition">Reflect</button>
             </div>
 
@@ -648,7 +670,7 @@
                             <div class="bg-white p-5 rounded-xl shadow-sm border border-brand-gold/20">
                                 <h4 class="font-bold text-brand-dark mb-2">12. Practice Scenario</h4>
                                 <p class="text-sm text-gray-600 mb-4">Rehearse this specific response pathway before you need it.</p>
-                                <button onclick="navTo('screen-practice')" class="text-brand-teal font-bold text-sm hover:underline">Start Practice →</button>
+                                <button onclick="navTo('screen-practice-intro')" class="text-brand-teal font-bold text-sm hover:underline">Start Practice →</button>
                             </div>
                             <div class="bg-white p-5 rounded-xl shadow-sm border border-brand-gold/20">
                                 <h4 class="font-bold text-brand-dark mb-2">13. Rollout Checklist</h4>
