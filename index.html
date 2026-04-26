@@ -161,19 +161,16 @@
              SCREEN: SPLASH / WELCOME 
              Using provided actual image mockup
              ========================================== -->
-        <div id="screen-splash" class="screen active bg-black">
+        <div id="screen-splash" class="screen active bg-black cursor-pointer" onclick="navTo('screen-dashboard')">
             <div class="h-full w-full flex items-center justify-center p-0">
                 <div class="relative w-full h-full max-w-md mx-auto aspect-[9/19.5]">
                     <!-- The Provided Image -->
                     <img src="Welcome Screen.png" class="w-full h-full object-contain object-center pointer-events-none" alt="Welcome to RAP">
                     
-                    <!-- Interactive Button Hitbox mapped perfectly over the "Press Play" graphic -->
-                    <button onclick="navTo('screen-dashboard')" 
-                            class="absolute w-[68%] h-[8%] bottom-[16%] left-1/2 transform -translate-x-1/2 
-                                   bg-white/0 hover:bg-white/20 active:bg-white/30 transition-all duration-300 rounded-[2rem] 
-                                   focus:outline-none pulse-hitbox border border-white/20"
-                            aria-label="Press Play to Enter">
-                    </button>
+                    <!-- Visual Pulse indicator - entire screen is now clickable to prevent dead zones -->
+                    <div class="absolute w-[68%] h-[8%] bottom-[16%] left-1/2 transform -translate-x-1/2 
+                               bg-white/0 rounded-[2rem] pulse-hitbox border border-white/20 pointer-events-none">
+                    </div>
                 </div>
             </div>
         </div>
@@ -283,22 +280,19 @@
              SCREEN: PRACTICE INTRO
              Uses the "Lift The Needle" custom image mockup
              ========================================== -->
-        <div id="screen-practice-intro" class="screen bg-black">
+        <div id="screen-practice-intro" class="screen bg-black cursor-pointer" onclick="navTo('screen-practice')">
             <div class="h-full w-full flex items-center justify-center p-0 relative">
                 <div class="relative w-full h-full max-w-md mx-auto aspect-[9/19.5]">
                     <!-- Top hidden back button map just to be safe if user wants to exit -->
-                    <button onclick="navTo('screen-dashboard')" class="absolute z-10 top-[6%] left-[6%] w-[15%] h-[5%] rounded-full focus:outline-none"></button>
+                    <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-[6%] left-[6%] w-[15%] h-[5%] rounded-full focus:outline-none"></button>
                     
                     <!-- The Provided Image -->
                     <img src="Lift the needle on the Scractched Record.png" class="w-full h-full object-contain object-center pointer-events-none" alt="Lift the Needle">
                     
-                    <!-- Interactive Button Hitbox mapped perfectly over the "Lift The Needle" graphic -->
-                    <button onclick="navTo('screen-practice')" 
-                            class="absolute w-[80%] h-[8%] bottom-[12%] left-1/2 transform -translate-x-1/2 
-                                   bg-white/0 hover:bg-white/20 active:bg-white/30 transition-all duration-300 rounded-[2rem] 
-                                   focus:outline-none pulse-hitbox border border-white/20"
-                            aria-label="Lift the needle and begin practice">
-                    </button>
+                    <!-- Visual Pulse indicator - entire screen is now clickable to prevent dead zones -->
+                    <div class="absolute w-[80%] h-[8%] bottom-[12%] left-1/2 transform -translate-x-1/2 
+                               bg-white/0 rounded-[2rem] pulse-hitbox border border-white/20 pointer-events-none">
+                    </div>
                 </div>
             </div>
         </div>
