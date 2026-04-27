@@ -191,6 +191,19 @@
                     <div class="text-brand-gold">Status: Studio Active</div>
                 </div>
 
+                <!-- The Studio Toolkit Banner -->
+                <div class="mb-4">
+                    <button onclick="navTo('screen-toolkit')" class="w-full bg-brand-dark text-white rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:bg-gray-800 transition text-left">
+                        <div>
+                            <p class="text-xs text-brand-gold uppercase tracking-widest font-bold mb-1">The Studio Toolkit</p>
+                            <h3 class="font-serif text-2xl font-bold">5 Stages of Escalation</h3>
+                        </div>
+                        <div class="bg-white/10 p-3 rounded-full group-hover:scale-110 transition">
+                            <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"/><path d="M18 20V4"/><path d="M6 20v-4"/></svg>
+                        </div>
+                    </button>
+                </div>
+
                 <!-- Dashboard Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <button onclick="navTo('screen-library')" class="bg-gradient-to-r from-brand-orange to-[#e56a17] text-white rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:opacity-95 transition text-left">
@@ -230,8 +243,233 @@
         </div>
 
         <!-- ==========================================
-             SCREEN: LIBRARY (Module Selection)
+             SCREEN: THE STUDIO TOOLKIT
              ========================================== -->
+        <div id="screen-toolkit" class="screen studio-background">
+            <div class="content-wrapper">
+                <button onclick="navTo('screen-dashboard')" class="flex items-center text-brand-teal mb-6 font-medium hover:opacity-80 transition">
+                    <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                    <span class="ml-2">Back to Studio</span>
+                </button>
+                
+                <div class="text-center mb-10">
+                    <p class="text-xs tracking-[0.2em] font-bold text-brand-gold uppercase mb-2">The Studio Toolkit</p>
+                    <h2 class="font-serif text-3xl md:text-4xl font-bold text-brand-teal leading-tight mb-6">De-Escalation Stages</h2>
+                    
+                    <div class="bg-brand-dark rounded-xl p-5 md:p-6 text-left shadow-luxury border border-brand-gold/20">
+                        <p class="text-sm md:text-base text-brand-gold-light italic font-medium">"Because a dysregulated adult cannot help regulate a child, teachers need automatic, predictable responses."</p>
+                        <p class="text-xs text-white/70 mt-3 leading-relaxed">Master the 5 stages of a behavioral crisis so you never have to improvise when the volume goes up.</p>
+                    </div>
+                </div>
+
+                <div class="space-y-8">
+                    
+                    <!-- Phase 1 -->
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-brand-teal text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3 flex-shrink-0 shadow-md">1</span>
+                            <h3 class="font-serif font-bold text-2xl text-brand-teal">The Trigger Phase</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4 pl-11 font-medium">Students send subtle warning signals that they are becoming overwhelmed, such as sighing, clenching fists, or lingering.</p>
+                        
+                        <div class="space-y-4 pl-11">
+                            <div>
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                    <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
+                                    <span class="text-brand-dark font-medium text-sm">A student showing early signs of frustration or refusing to transition...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Intervene early and low-key. Acknowledge the challenge and offer a brief regulation break <em>(e.g., "I can see it's hard to switch gears. Take a minute to get a drink of water, then we'll get started.")</em></span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                    <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
+                                    <span class="text-brand-dark font-medium text-sm">Minor, low-level disruptions (tapping, whispering)...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Use "strategic ignoring" for behaviors that don't impact safety, or use proximity (standing near the student) to redirect them without a verbal reprimand.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 2 -->
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-brand-teal text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3 flex-shrink-0 shadow-md">2</span>
+                            <h3 class="font-serif font-bold text-2xl text-brand-teal">The Agitation Phase</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4 pl-11 font-medium">If the trigger isn't addressed, the student may push back, argue slightly, or slam materials.</p>
+                        
+                        <div class="space-y-4 pl-11">
+                            <div>
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                    <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
+                                    <span class="text-brand-dark font-medium text-sm">A student begins to argue or challenge your authority...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Drop your volume, slow your pace, and completely avoid power struggles.</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                    <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
+                                    <span class="text-brand-dark font-medium text-sm">The student expressing anger or defiance...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Validate feelings without validating the behavior. Use empathy <em>("I see you're frustrated")</em> and offer 2-3 acceptable choices <em>("You can complete this independently or with a partner. Which do you prefer?")</em>.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 3 -->
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-[#e56a17] text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3 flex-shrink-0 shadow-md">3</span>
+                            <h3 class="font-serif font-bold text-2xl text-[#e56a17]">The Acceleration Phase</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4 pl-11 font-medium">The student becomes louder, paces, or blatantly refuses. Reasoning is no longer effective.</p>
+                        
+                        <div class="space-y-4 pl-11">
+                            <div>
+                                <div class="bg-orange-50 p-4 rounded-t-xl border border-orange-100 border-b-0">
+                                    <span class="text-brand-orange font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
+                                    <span class="text-brand-dark font-medium text-sm">The student is highly agitated and raising their voice...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Use significantly fewer words and maintain a calm, monotonous tone. Do not ask "Why?" questions or deliver lectures.</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-orange-50 p-4 rounded-t-xl border border-orange-100 border-b-0">
+                                    <span class="text-brand-orange font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
+                                    <span class="text-brand-dark font-medium text-sm">Verbal directions are causing more pushback...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Lean on non-verbal cues. Quietly point to a "Take a Break" card or gesture toward a calm space to reduce cognitive demand.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 4 -->
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-red-700 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3 flex-shrink-0 shadow-md">4</span>
+                            <h3 class="font-serif font-bold text-2xl text-red-700">The Crisis Phase</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4 pl-11 font-medium">Peak escalation. Unsafe behavior or extreme disruption. Safety is the only priority.</p>
+                        
+                        <div class="space-y-4 pl-11">
+                            <div>
+                                <div class="bg-red-50 p-4 rounded-t-xl border border-red-100 border-b-0">
+                                    <span class="text-red-700 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
+                                    <span class="text-brand-dark font-medium text-sm">The student becomes unsafe or highly disruptive...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Stop teaching. Follow district safety protocols (call an admin, give space, or escort others out).</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-red-50 p-4 rounded-t-xl border border-red-100 border-b-0">
+                                    <span class="text-red-700 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
+                                    <span class="text-brand-dark font-medium text-sm">You must interact during the crisis...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Use the absolute minimum number of words possible <em>(e.g., "I am here when you are ready")</em>.</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-red-50 p-4 rounded-t-xl border border-red-100 border-b-0">
+                                    <span class="text-red-700 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you feel:</span>
+                                    <span class="text-brand-dark font-medium text-sm">Your own heart racing and anxiety rising...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Step back and take 3 deep breaths. Your panic will only escalate their aggression.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 5 -->
+                    <div>
+                        <div class="flex items-center mb-4">
+                            <span class="bg-brand-teal text-white rounded-full w-8 h-8 flex items-center justify-center font-bold mr-3 flex-shrink-0 shadow-md">5</span>
+                            <h3 class="font-serif font-bold text-2xl text-brand-teal">The Recovery Phase</h3>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4 pl-11 font-medium">The student is settling, but remains highly vulnerable to being re-triggered.</p>
+                        
+                        <div class="space-y-4 pl-11">
+                            <div>
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                    <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
+                                    <span class="text-brand-dark font-medium text-sm">The student begins to calm down...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Acknowledge their effort gently, without rushing into discipline <em>("I'm glad you're feeling calmer. Take a few more minutes.")</em>.</span>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                    <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you feel:</span>
+                                    <span class="text-brand-dark font-medium text-sm">It's time to process behavior or assign consequences...</span>
+                                </div>
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
+                                    <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
+                                    <span class="text-brand-dark text-sm">Wait at least 20–30 minutes until fully baseline. Logic too soon restarts the crisis cycle.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Physical Stance Section -->
+                    <div class="mt-12 mb-6 flex items-center justify-center">
+                        <div class="h-px bg-brand-gold/30 flex-grow"></div>
+                        <div class="mx-4 text-brand-gold tracking-[0.3em] uppercase text-[9px] font-bold">Physical Stance</div>
+                        <div class="h-px bg-brand-gold/30 flex-grow"></div>
+                    </div>
+
+                    <div class="bg-brand-dark rounded-2xl shadow-luxury overflow-hidden text-white mb-6">
+                        <div class="px-6 py-5 border-b border-white/10">
+                            <h3 class="font-serif font-bold text-2xl text-brand-gold-light mb-2">The Studio Posture</h3>
+                            <p class="text-sm text-gray-300 leading-relaxed">Body language communicates safety or threat to a dysregulated brain. Memorize these automatic physical responses.</p>
+                        </div>
+                        <div class="p-6 grid gap-4 md:grid-cols-2">
+                            <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                                <p class="text-[10px] uppercase text-brand-orange font-bold tracking-widest mb-1">When approaching:</p>
+                                <p class="text-sm font-medium">Stay at least 4x your usual distance (~6 feet) away.</p>
+                            </div>
+                            <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                                <p class="text-[10px] uppercase text-brand-orange font-bold tracking-widest mb-1">When speaking:</p>
+                                <p class="text-sm font-medium">Stand at an angle (the "L-stance") rather than face-to-face.</p>
+                            </div>
+                            <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                                <p class="text-[10px] uppercase text-brand-orange font-bold tracking-widest mb-1">When they sit:</p>
+                                <p class="text-sm font-medium">Get on their eye level by sitting or crouching.</p>
+                            </div>
+                            <div class="bg-white/5 p-4 rounded-xl border border-white/10">
+                                <p class="text-[10px] uppercase text-brand-orange font-bold tracking-widest mb-1">When directing:</p>
+                                <p class="text-sm font-medium">Keep hands visible. Never point or shake your finger at them.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
         <div id="screen-library" class="screen studio-background">
             <div class="content-wrapper">
                 <div class="text-center mb-8 pt-4">
@@ -278,7 +516,7 @@
              ========================================== -->
         <div id="screen-practice-intro" class="screen cursor-pointer relative bg-[#f8f5ef]" onclick="navTo('screen-practice')">
             <!-- Fixed src with URL encoded spaces (%20) and a fallback onerror to a styled placeholder -->
-            <img src="Lift%20the%20needle%20on%20the%20Scratched%20Record.png" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Lift+the+Needle\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Lift the Needle">
+            <img src="Lift%20the%20needle%20on%20the%20Scractched%20Record.png" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Lift+the+Needle\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Lift the Needle">
             
             <!-- Exit button placed safely in the top left -->
             <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-6 left-6 p-4 text-brand-teal bg-white/90 backdrop-blur-md rounded-full shadow-xl hover:bg-brand-teal hover:text-white transition focus:outline-none">
