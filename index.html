@@ -165,9 +165,11 @@
              SCREEN: SPLASH / WELCOME 
              Using provided actual image mockup
              ========================================== -->
-        <div id="screen-splash" class="screen active cursor-pointer relative studio-background" onclick="navTo('screen-dashboard')">
-            <!-- Image uses object-contain to prevent cut-offs, with a studio background -->
-            <img src="Welcome Screen.png" class="absolute inset-0 w-full h-full object-contain pointer-events-none p-4" alt="Welcome to RAP">
+        <div id="screen-splash" class="screen active cursor-pointer studio-background flex items-center justify-center md:p-6" onclick="navTo('screen-dashboard')">
+            <!-- Mobile Bounds Simulator -->
+            <div class="w-full h-full md:h-[90vh] md:max-h-[850px] max-w-[430px] mx-auto relative md:rounded-[2.5rem] md:border-[8px] md:border-gray-900 md:shadow-2xl overflow-hidden bg-[#f8f5ef]">
+                <img src="Welcome Screen.png" class="absolute inset-0 w-full h-full object-cover" alt="Welcome to RAP">
+            </div>
         </div>
 
         <!-- ==========================================
@@ -275,14 +277,16 @@
              SCREEN: PRACTICE INTRO
              Uses the "Lift The Needle" custom image mockup
              ========================================== -->
-        <div id="screen-practice-intro" class="screen cursor-pointer relative studio-background" onclick="navTo('screen-practice')">
-            <!-- Image uses object-contain to prevent cut-offs, with a studio background -->
-            <img src="Lift the needle on the Scractched Record.png" class="absolute inset-0 w-full h-full object-contain pointer-events-none p-4" alt="Lift the Needle">
-            
-            <!-- Exit button placed safely in the top left -->
-            <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-6 left-6 p-3 text-brand-teal bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-105 transition focus:outline-none">
-                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-            </button>
+        <div id="screen-practice-intro" class="screen cursor-pointer studio-background flex items-center justify-center md:p-6" onclick="navTo('screen-practice')">
+            <!-- Mobile Bounds Simulator -->
+            <div class="w-full h-full md:h-[90vh] md:max-h-[850px] max-w-[430px] mx-auto relative md:rounded-[2.5rem] md:border-[8px] md:border-gray-900 md:shadow-2xl overflow-hidden bg-[#f8f5ef]">
+                <img src="Lift the needle on the Scractched Record.png" class="absolute inset-0 w-full h-full object-cover" alt="Lift the Needle">
+                
+                <!-- Exit button placed safely in the top left -->
+                <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-4 left-4 p-3 text-brand-teal bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-105 transition focus:outline-none">
+                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+                </button>
+            </div>
         </div>
 
         <!-- ==========================================
