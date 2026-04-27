@@ -165,14 +165,9 @@
              SCREEN: SPLASH / WELCOME 
              Using provided actual image mockup
              ========================================== -->
-        <div id="screen-splash" class="screen active bg-black cursor-pointer overflow-hidden relative" onclick="navTo('screen-dashboard')">
-            <!-- Use object-cover and scale to zoom past the fake phone bezel baked into the image -->
-            <img src="Welcome Screen.png" class="absolute inset-0 w-full h-full object-cover object-center scale-[1.15] pointer-events-none" alt="Welcome to RAP">
-            
-            <!-- Visual Pulse indicator positioned relative to bottom -->
-            <div class="absolute w-[70%] h-[8%] bottom-[15%] left-1/2 transform -translate-x-1/2 
-                       bg-white/0 rounded-[2rem] pulse-hitbox border border-white/20 pointer-events-none">
-            </div>
+        <div id="screen-splash" class="screen active cursor-pointer relative studio-background" onclick="navTo('screen-dashboard')">
+            <!-- Image uses object-contain to prevent cut-offs, with a studio background -->
+            <img src="Welcome Screen.png" class="absolute inset-0 w-full h-full object-contain pointer-events-none p-4" alt="Welcome to RAP">
         </div>
 
         <!-- ==========================================
@@ -280,17 +275,14 @@
              SCREEN: PRACTICE INTRO
              Uses the "Lift The Needle" custom image mockup
              ========================================== -->
-        <div id="screen-practice-intro" class="screen bg-black cursor-pointer overflow-hidden relative" onclick="navTo('screen-practice')">
-            <!-- Top hidden back button map just to be safe if user wants to exit -->
-            <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-[4%] left-[4%] w-[15%] h-[8%] rounded-full focus:outline-none"></button>
+        <div id="screen-practice-intro" class="screen cursor-pointer relative studio-background" onclick="navTo('screen-practice')">
+            <!-- Image uses object-contain to prevent cut-offs, with a studio background -->
+            <img src="Lift the needle on the Scractched Record.png" class="absolute inset-0 w-full h-full object-contain pointer-events-none p-4" alt="Lift the Needle">
             
-            <!-- Use object-cover and scale to zoom past the fake phone bezel baked into the image -->
-            <img src="Lift the needle on the Scractched Record.png" class="absolute inset-0 w-full h-full object-cover object-center scale-[1.15] pointer-events-none" alt="Lift the Needle">
-            
-            <!-- Visual Pulse indicator positioned relative to bottom -->
-            <div class="absolute w-[80%] h-[8%] bottom-[11%] left-1/2 transform -translate-x-1/2 
-                       bg-white/0 rounded-[2rem] pulse-hitbox border border-white/20 pointer-events-none">
-            </div>
+            <!-- Exit button placed safely in the top left -->
+            <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-6 left-6 p-3 text-brand-teal bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-105 transition focus:outline-none">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </button>
         </div>
 
         <!-- ==========================================
