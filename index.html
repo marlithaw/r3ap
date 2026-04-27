@@ -8,7 +8,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;600;700&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -23,7 +23,7 @@
                         'brand-gold': '#c09e6c',
                         'brand-gold-light': '#dfc59a',
                         'brand-orange': '#f08a42',
-                        'studio-bg': '#f4ede3', /* Warmed up to match the image backgrounds */
+                        'studio-bg': '#f8f5ef',
                         'live-bg': '#f9f9f7',
                         'brand-dark': '#1a202c'
                     },
@@ -47,9 +47,7 @@
             margin: 0; padding: 0;
             width: 100%; height: 100%;
             overflow: hidden; 
-            /* Warmer background with a subtle SVG noise texture to match the vintage feel of the images */
-            background-color: #f4ede3; 
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            background-color: #000; /* Dark background for the image borders */
             -webkit-font-smoothing: antialiased;
         }
 
@@ -59,6 +57,7 @@
             height: 100dvh;
             display: flex; flex-direction: column;
             position: relative;
+            transition: background-color 0.3s ease;
         }
 
         /* Scrollable Content Area */
@@ -84,11 +83,8 @@
         .screen.active { display: block; }
         
         .studio-background {
-            background-color: #f4ede3;
-            /* Combines the subtle noise texture with the glowing radial gradient */
-            background-image: 
-                radial-gradient(circle at 50% 0%, rgba(255,255,255,0.6) 0%, transparent 65%),
-                url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            background-color: #f8f5ef;
+            background-image: radial-gradient(circle at 50% 0%, #ffffff 0%, transparent 60%);
         }
 
         @keyframes fadeIn {
@@ -146,6 +142,67 @@
         /* App Specific Utilities */
         .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .hide-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* Active Nav State */
+        .nav-btn-active { color: #0f5b5b !important; }
+        .nav-btn-active span { color: #0f5b5b !important; }
+        .nav-btn-active svg { stroke: #0f5b5b; }
+        .nav-btn-live-active .nav-live-disc { background: linear-gradient(135deg, #0f5b5b, #187b7a) !important; }
+
+        /* Desktop Layout: Sidebar at wide viewports */
+        @media (min-width: 900px) {
+            #app { flex-direction: row; }
+            #screens-container {
+                flex: 1;
+                padding-bottom: 0 !important;
+            }
+            #main-nav {
+                position: relative !important;
+                bottom: auto !important;
+                left: auto !important;
+                width: 200px !important;
+                flex-direction: column !important;
+                justify-content: flex-start !important;
+                align-items: stretch !important;
+                border-top: none !important;
+                border-right: 1px solid rgba(192, 158, 108, 0.2) !important;
+                padding: 2rem 0.75rem !important;
+                height: 100vh !important;
+                overflow-y: auto !important;
+                order: -1;
+                box-shadow: 5px 0 20px rgba(0,0,0,0.04) !important;
+            }
+            #main-nav .nav-desktop-logo {
+                display: block !important;
+            }
+            #main-nav button {
+                flex-direction: row !important;
+                justify-content: flex-start !important;
+                padding: 0.75rem 1rem !important;
+                border-radius: 0.75rem !important;
+                margin-bottom: 0.25rem !important;
+                transform: none !important;
+                gap: 0.75rem;
+            }
+            #main-nav button svg { width: 1.1rem !important; height: 1.1rem !important; margin-bottom: 0 !important; }
+            #main-nav button span { font-size: 0.7rem !important; }
+            #main-nav .nav-live-disc {
+                width: 2rem !important; height: 2rem !important;
+                padding: 0.4rem !important;
+            }
+            #main-nav .nav-live-disc svg { width: 0.9rem !important; height: 0.9rem !important; }
+        }
+        .nav-desktop-logo { display: none; }
+
+        /* Pulse Hitbox Animation for interactive images */
+        .pulse-hitbox {
+            animation: pulse-glow 2.5s infinite;
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5); }
+            70% { box-shadow: 0 0 0 12px rgba(255, 255, 255, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
+        }
     </style>
 </head>
 <body>
@@ -158,17 +215,17 @@
         <!-- ==========================================
              SCREEN: SPLASH / WELCOME 
              ========================================== -->
-        <!-- Background is set to transparent here so the textured body shows through and blends with the image -->
-        <div id="screen-splash" class="screen active cursor-pointer relative bg-transparent" onclick="navTo('screen-dashboard')">
+        <div id="screen-splash" class="screen active cursor-pointer relative bg-[#f8f5ef]" onclick="navTo('screen-dashboard')">
             <!-- Fixed src with URL encoded spaces (%20) and a fallback onerror to a styled placeholder -->
-            <img src="Welcome%20Screen.png" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f4ede3/0f5b5b?text=Welcome+Screen\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Welcome to RAP">
+            <img src="Welcome%20Screen.png" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Welcome+Screen\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Welcome to RAP">
             
             <!-- Dynamic Name Overlay to fill the empty gap -->
-            <div class="absolute w-full top-[62%] sm:top-[62%] left-1/2 transform -translate-x-1/2 text-center pointer-events-none z-10">
-                <p class="text-4xl md:text-5xl font-bold drop-shadow-sm transform -rotate-2" style="font-family: 'Caveat', cursive; color: #d36b22; letter-spacing: 0.1em;">EDUCATOR</p>
+            <div class="absolute w-full top-[65.5%] sm:top-[66%] left-1/2 transform -translate-x-1/2 text-center pointer-events-none z-10">
+                <p class="font-serif text-3xl md:text-4xl font-bold tracking-wide drop-shadow-sm" style="color: #b37d4c;">Educator</p>
             </div>
-            
-            <!-- Removed the clashing pulse-hitbox div completely -->
+
+            <!-- Pulse Hitbox indicating where to tap -->
+            <div class="absolute w-[80%] max-w-[300px] h-[8%] bottom-[12%] left-1/2 transform -translate-x-1/2 rounded-[2rem] pulse-hitbox border-2 border-[#0f5b5b]/30 pointer-events-none z-20"></div>
         </div>
 
         <!-- ==========================================
@@ -183,11 +240,45 @@
                         <span class="text-[9px] tracking-[0.2em] font-bold text-brand-teal uppercase">Master Your Freestyle</span>
                     </div>
                 </div>
+
+                <!-- Start Here Flow -->
+                <div class="mb-6">
+                    <p class="text-[9px] tracking-[0.18em] font-bold text-brand-gold uppercase mb-3">Start Here — Your Flow</p>
+                    <div class="grid grid-cols-4 gap-2">
+                        <button onclick="navTo('screen-library')" class="bg-white border border-brand-gold/30 rounded-xl p-3 text-center hover:border-brand-teal hover:shadow-sm transition">
+                            <p class="font-serif font-bold text-brand-teal text-base leading-none mb-1">01</p>
+                            <p class="text-[9px] font-bold uppercase tracking-wider text-gray-500">Library</p>
+                            <p class="text-[8px] text-gray-400 mt-0.5 leading-tight">Learn the<br>routine</p>
+                        </button>
+                        <button onclick="navTo('screen-practice-intro')" class="bg-white border border-brand-gold/30 rounded-xl p-3 text-center hover:border-brand-teal hover:shadow-sm transition">
+                            <p class="font-serif font-bold text-brand-teal text-base leading-none mb-1">02</p>
+                            <p class="text-[9px] font-bold uppercase tracking-wider text-gray-500">Practice</p>
+                            <p class="text-[8px] text-gray-400 mt-0.5 leading-tight">Rehearse<br>the script</p>
+                        </button>
+                        <button onclick="startLiveState()" class="bg-brand-orange/10 border border-brand-orange/30 rounded-xl p-3 text-center hover:border-brand-orange hover:shadow-sm transition">
+                            <p class="font-serif font-bold text-brand-orange text-base leading-none mb-1">03</p>
+                            <p class="text-[9px] font-bold uppercase tracking-wider text-brand-orange">Live</p>
+                            <p class="text-[8px] text-gray-400 mt-0.5 leading-tight">Deploy<br>in class</p>
+                        </button>
+                        <button onclick="navTo('screen-reflect')" class="bg-white border border-brand-gold/30 rounded-xl p-3 text-center hover:border-brand-teal hover:shadow-sm transition">
+                            <p class="font-serif font-bold text-brand-teal text-base leading-none mb-1">04</p>
+                            <p class="text-[9px] font-bold uppercase tracking-wider text-gray-500">Track</p>
+                            <p class="text-[8px] text-gray-400 mt-0.5 leading-tight">Reflect<br>& export</p>
+                        </button>
+                    </div>
+                </div>
                 
                 <!-- Status Bar -->
-                <div class="bg-white rounded-xl p-4 shadow-sm border border-brand-gold/30 mb-8 flex justify-between items-center text-sm font-medium text-brand-dark">
-                    <div class="flex items-center"><span class="w-2 h-2 rounded-full bg-brand-teal mr-2"></span> Grade Band: K-8</div>
-                    <div class="text-brand-gold">Status: Studio Active</div>
+                <div class="bg-white rounded-xl p-4 shadow-sm border border-brand-gold/30 mb-6 flex justify-between items-center text-sm font-medium text-brand-dark">
+                    <button onclick="showNotification('Grade Band settings coming in the next release.')" class="flex items-center hover:text-brand-teal transition group">
+                        <span class="w-2 h-2 rounded-full bg-brand-teal mr-2"></span>
+                        Grade Band: K-8
+                        <svg class="w-3 h-3 ml-1 text-brand-gold opacity-60 group-hover:opacity-100 transition" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    </button>
+                    <button onclick="showNotification('Studio mode settings coming in the next release.')" class="text-brand-gold hover:opacity-70 transition flex items-center gap-1">
+                        Status: Studio Active
+                        <svg class="w-3 h-3 opacity-60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    </button>
                 </div>
 
                 <!-- The Studio Toolkit Banner -->
@@ -233,7 +324,7 @@
                     <button onclick="navTo('screen-reflect')" class="bg-white border border-brand-gold/30 rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:border-brand-teal transition text-left">
                         <div>
                             <h3 class="font-serif text-xl font-bold text-brand-teal mb-1">Track & Reflect</h3>
-                            <p class="text-xs text-gray-500 uppercase tracking-wider font-bold">Export Evidence</p>
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-bold">Export PDF Report</p>
                         </div>
                         <div class="text-brand-teal bg-brand-cream p-3 rounded-full"><svg class="w-5 h-5 icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg></div>
                     </button>
@@ -273,21 +364,21 @@
                         
                         <div class="space-y-4 pl-11">
                             <div>
-                                <div class="bg-white/80 backdrop-blur-sm p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
                                     <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
                                     <span class="text-brand-dark font-medium text-sm">A student showing early signs of frustration or refusing to transition...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Intervene early and low-key. Acknowledge the challenge and offer a brief regulation break <em>(e.g., "I can see it's hard to switch gears. Take a minute to get a drink of water, then we'll get started.")</em></span>
                                 </div>
                             </div>
                             <div>
-                                <div class="bg-white/80 backdrop-blur-sm p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
                                     <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
                                     <span class="text-brand-dark font-medium text-sm">Minor, low-level disruptions (tapping, whispering)...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Use "strategic ignoring" for behaviors that don't impact safety, or use proximity (standing near the student) to redirect them without a verbal reprimand.</span>
                                 </div>
@@ -305,21 +396,21 @@
                         
                         <div class="space-y-4 pl-11">
                             <div>
-                                <div class="bg-white/80 backdrop-blur-sm p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
                                     <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
                                     <span class="text-brand-dark font-medium text-sm">A student begins to argue or challenge your authority...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Drop your volume, slow your pace, and completely avoid power struggles.</span>
                                 </div>
                             </div>
                             <div>
-                                <div class="bg-white/80 backdrop-blur-sm p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
                                     <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
                                     <span class="text-brand-dark font-medium text-sm">The student expressing anger or defiance...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Validate feelings without validating the behavior. Use empathy <em>("I see you're frustrated")</em> and offer 2-3 acceptable choices <em>("You can complete this independently or with a partner. Which do you prefer?")</em>.</span>
                                 </div>
@@ -337,21 +428,21 @@
                         
                         <div class="space-y-4 pl-11">
                             <div>
-                                <div class="bg-orange-50/50 p-4 rounded-t-xl border border-orange-100 border-b-0">
+                                <div class="bg-orange-50 p-4 rounded-t-xl border border-orange-100 border-b-0">
                                     <span class="text-brand-orange font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
                                     <span class="text-brand-dark font-medium text-sm">The student is highly agitated and raising their voice...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Use significantly fewer words and maintain a calm, monotonous tone. Do not ask "Why?" questions or deliver lectures.</span>
                                 </div>
                             </div>
                             <div>
-                                <div class="bg-orange-50/50 p-4 rounded-t-xl border border-orange-100 border-b-0">
+                                <div class="bg-orange-50 p-4 rounded-t-xl border border-orange-100 border-b-0">
                                     <span class="text-brand-orange font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
                                     <span class="text-brand-dark font-medium text-sm">Verbal directions are causing more pushback...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Lean on non-verbal cues. Quietly point to a "Take a Break" card or gesture toward a calm space to reduce cognitive demand.</span>
                                 </div>
@@ -369,31 +460,31 @@
                         
                         <div class="space-y-4 pl-11">
                             <div>
-                                <div class="bg-red-50/50 p-4 rounded-t-xl border border-red-100 border-b-0">
+                                <div class="bg-red-50 p-4 rounded-t-xl border border-red-100 border-b-0">
                                     <span class="text-red-700 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
                                     <span class="text-brand-dark font-medium text-sm">The student becomes unsafe or highly disruptive...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Stop teaching. Follow district safety protocols (call an admin, give space, or escort others out).</span>
                                 </div>
                             </div>
                             <div>
-                                <div class="bg-red-50/50 p-4 rounded-t-xl border border-red-100 border-b-0">
+                                <div class="bg-red-50 p-4 rounded-t-xl border border-red-100 border-b-0">
                                     <span class="text-red-700 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
                                     <span class="text-brand-dark font-medium text-sm">You must interact during the crisis...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Use the absolute minimum number of words possible <em>(e.g., "I am here when you are ready")</em>.</span>
                                 </div>
                             </div>
                             <div>
-                                <div class="bg-red-50/50 p-4 rounded-t-xl border border-red-100 border-b-0">
+                                <div class="bg-red-50 p-4 rounded-t-xl border border-red-100 border-b-0">
                                     <span class="text-red-700 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you feel:</span>
                                     <span class="text-brand-dark font-medium text-sm">Your own heart racing and anxiety rising...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Step back and take 3 deep breaths. Your panic will only escalate their aggression.</span>
                                 </div>
@@ -411,21 +502,21 @@
                         
                         <div class="space-y-4 pl-11">
                             <div>
-                                <div class="bg-white/80 backdrop-blur-sm p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
                                     <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you see:</span>
                                     <span class="text-brand-dark font-medium text-sm">The student begins to calm down...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Acknowledge their effort gently, without rushing into discipline <em>("I'm glad you're feeling calmer. Take a few more minutes.")</em>.</span>
                                 </div>
                             </div>
                             <div>
-                                <div class="bg-white/80 backdrop-blur-sm p-4 rounded-t-xl border border-gray-200 border-b-0">
+                                <div class="bg-gray-100 p-4 rounded-t-xl border border-gray-200 border-b-0">
                                     <span class="text-gray-500 font-bold block mb-1 text-[10px] uppercase tracking-widest">When you feel:</span>
                                     <span class="text-brand-dark font-medium text-sm">It's time to process behavior or assign consequences...</span>
                                 </div>
-                                <div class="bg-white p-4 rounded-b-xl border border-brand-gold/30 shadow-sm">
+                                <div class="bg-brand-cream p-4 rounded-b-xl border border-brand-gold/30">
                                     <span class="text-brand-teal font-bold block mb-1 text-[10px] uppercase tracking-widest">The Studio Response:</span>
                                     <span class="text-brand-dark text-sm">Wait at least 20–30 minutes until fully baseline. Logic too soon restarts the crisis cycle.</span>
                                 </div>
@@ -513,17 +604,17 @@
         <!-- ==========================================
              SCREEN: PRACTICE INTRO
              ========================================== -->
-        <!-- Background is transparent so the textured body shows through and blends with the image -->
-        <div id="screen-practice-intro" class="screen cursor-pointer relative bg-transparent" onclick="navTo('screen-practice')">
+        <div id="screen-practice-intro" class="screen cursor-pointer relative bg-[#f8f5ef]" onclick="navTo('screen-practice')">
             <!-- Fixed src with URL encoded spaces (%20) and a fallback onerror to a styled placeholder -->
-            <img src="Lift%20the%20needle%20on%20the%20Scratched%20Record.png" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f4ede3/0f5b5b?text=Lift+the+Needle\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Lift the Needle">
+            <img src="Lift%20the%20needle%20on%20the%20Scratched%20Record.png" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Lift+the+Needle\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Lift the Needle">
             
             <!-- Exit button placed safely in the top left -->
             <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-6 left-6 p-4 text-brand-teal bg-white/90 backdrop-blur-md rounded-full shadow-xl hover:bg-brand-teal hover:text-white transition focus:outline-none">
                 <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
             </button>
-            
-            <!-- Removed the clashing pulse-hitbox div completely -->
+
+            <!-- Pulse Hitbox indicating where to tap -->
+            <div class="absolute w-[80%] max-w-[300px] h-[8%] bottom-[10%] left-1/2 transform -translate-x-1/2 rounded-[2rem] pulse-hitbox border-2 border-[#0f5b5b]/30 pointer-events-none"></div>
         </div>
 
         <!-- ==========================================
@@ -559,23 +650,34 @@
          FIXED BOTTOM NAVIGATION 
          ========================================== -->
     <nav id="main-nav" class="fixed bottom-0 left-0 w-full bg-white border-t border-brand-gold/20 flex justify-around items-end pt-3 nav-safe-bottom shadow-[0_-5px_20px_rgba(0,0,0,0.05)] z-[100] hidden">
-        <button onclick="navTo('screen-dashboard')" class="flex-1 flex flex-col items-center text-brand-dark hover:text-brand-teal transition pb-1">
+        
+        <!-- Desktop-only logo (hidden on mobile via CSS) -->
+        <div class="nav-desktop-logo mb-8 px-2">
+            <p class="font-serif text-lg font-bold text-brand-teal leading-tight">R³.A.P.</p>
+            <p class="text-[9px] tracking-[0.18em] font-bold text-brand-gold uppercase">Response Studio</p>
+        </div>
+
+        <button id="nav-btn-studio" data-nav="screen-dashboard" onclick="navTo('screen-dashboard')" class="flex-1 flex flex-col items-center text-gray-400 hover:text-brand-teal transition pb-1">
             <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Studio</span>
         </button>
-        <button onclick="navTo('screen-library')" class="flex-1 flex flex-col items-center text-brand-dark hover:text-brand-teal transition pb-1">
+        <button id="nav-btn-library" data-nav="screen-library" onclick="navTo('screen-library')" class="flex-1 flex flex-col items-center text-gray-400 hover:text-brand-teal transition pb-1">
             <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
             <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Library</span>
         </button>
-        <button onclick="navTo('screen-library')" class="flex-1 flex flex-col items-center text-brand-orange hover:opacity-80 transition transform -translate-y-2">
-            <div class="bg-brand-orange text-white p-3 rounded-full shadow-lg border-2 border-white">
+        <button id="nav-btn-live" data-nav="screen-live" onclick="startLiveState()" class="flex-1 flex flex-col items-center text-brand-orange hover:opacity-80 transition transform -translate-y-2">
+            <div class="nav-live-disc bg-brand-orange text-white p-3 rounded-full shadow-lg border-2 border-white">
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             </div>
             <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider mt-1 whitespace-nowrap">Live</span>
         </button>
-        <button onclick="navTo('screen-practice-intro')" class="flex-1 flex flex-col items-center text-brand-dark hover:text-brand-teal transition pb-1">
+        <button id="nav-btn-practice" data-nav="screen-practice" onclick="navTo('screen-practice-intro')" class="flex-1 flex flex-col items-center text-gray-400 hover:text-brand-teal transition pb-1">
             <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
             <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Practice</span>
+        </button>
+        <button id="nav-btn-track" data-nav="screen-reflect" onclick="navTo('screen-reflect')" class="flex-1 flex flex-col items-center text-gray-400 hover:text-brand-teal transition pb-1">
+            <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>
+            <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Track</span>
         </button>
     </nav>
 
@@ -721,6 +823,31 @@
         } else {
             bottomNav.style.display = 'flex';
             scrollContainer.style.paddingBottom = '80px';
+        }
+
+        // Update active nav button highlight
+        const navMap = {
+            'screen-dashboard': 'nav-btn-studio',
+            'screen-toolkit': 'nav-btn-studio',
+            'screen-library': 'nav-btn-library',
+            'screen-module': 'nav-btn-library',
+            'screen-teach': 'nav-btn-library',
+            'screen-live': 'nav-btn-live',
+            'screen-practice': 'nav-btn-practice',
+            'screen-reflect': 'nav-btn-track',
+            'screen-reset': 'nav-btn-studio',
+        };
+        document.querySelectorAll('#main-nav button[id]').forEach(btn => {
+            btn.classList.remove('nav-btn-active');
+            btn.style.color = '';
+        });
+        const activeNavId = navMap[screenId];
+        if (activeNavId) {
+            const activeBtn = document.getElementById(activeNavId);
+            if (activeBtn) {
+                activeBtn.classList.add('nav-btn-active');
+                activeBtn.querySelectorAll('span').forEach(s => s.style.color = '#0f5b5b');
+            }
         }
 
         // Render target content where appropriate
@@ -1077,7 +1204,7 @@
                     
                     <div class="space-y-4 max-w-sm mx-auto">
                         ${!practiceCorrect ? `<button onclick="practiceAnswered=false; renderPractice();" class="w-full bg-brand-dark text-white py-4 rounded-xl font-bold text-lg hover:bg-gray-800 transition">Try Again</button>` : ''}
-                        <button onclick="navTo('screen-module')" class="w-full bg-brand-cream text-brand-teal py-4 rounded-xl font-bold text-lg border border-brand-gold/30 hover:bg-[#e8ddc9] transition">Back to Liner Notes</button>
+                        <button onclick="navTo('screen-module')" class="w-full bg-brand-cream text-brand-teal py-4 rounded-xl font-bold text-lg border border-brand-gold/30 hover:bg-[#e8ddc9] transition">Back to Module Notes</button>
                     </div>
                 </div>
             `;
