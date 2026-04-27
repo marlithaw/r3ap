@@ -163,13 +163,13 @@
         
         <!-- ==========================================
              SCREEN: SPLASH / WELCOME 
-             Using provided actual image mockup
              ========================================== -->
-        <div id="screen-splash" class="screen active cursor-pointer studio-background flex items-center justify-center md:p-6" onclick="navTo('screen-dashboard')">
-            <!-- Mobile Bounds Simulator -->
-            <div class="w-full h-full md:h-[90vh] md:max-h-[850px] max-w-[430px] mx-auto relative md:rounded-[2.5rem] md:border-[8px] md:border-gray-900 md:shadow-2xl overflow-hidden bg-[#f8f5ef]">
-                <img src="Welcome Screen.png" class="absolute inset-0 w-full h-full object-cover" alt="Welcome to RAP">
-            </div>
+        <div id="screen-splash" class="screen active cursor-pointer relative bg-[#f8f5ef]" onclick="navTo('screen-dashboard')">
+            <!-- Fixed src with URL encoded spaces (%20) and a fallback onerror to a styled placeholder -->
+            <img src="Welcome%20Screen.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Welcome+Screen\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Welcome to RAP">
+            
+            <!-- Pulse Hitbox indicating where to tap -->
+            <div class="absolute w-[80%] max-w-[300px] h-[8%] bottom-[12%] left-1/2 transform -translate-x-1/2 rounded-[2rem] pulse-hitbox border-2 border-[#0f5b5b]/30 pointer-events-none"></div>
         </div>
 
         <!-- ==========================================
@@ -275,18 +275,18 @@
 
         <!-- ==========================================
              SCREEN: PRACTICE INTRO
-             Uses the "Lift The Needle" custom image mockup
              ========================================== -->
-        <div id="screen-practice-intro" class="screen cursor-pointer studio-background flex items-center justify-center md:p-6" onclick="navTo('screen-practice')">
-            <!-- Mobile Bounds Simulator -->
-            <div class="w-full h-full md:h-[90vh] md:max-h-[850px] max-w-[430px] mx-auto relative md:rounded-[2.5rem] md:border-[8px] md:border-gray-900 md:shadow-2xl overflow-hidden bg-[#f8f5ef]">
-                <img src="Lift the needle on the Scractched Record.png" class="absolute inset-0 w-full h-full object-cover" alt="Lift the Needle">
-                
-                <!-- Exit button placed safely in the top left -->
-                <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-4 left-4 p-3 text-brand-teal bg-white/80 backdrop-blur-sm rounded-full shadow-md hover:bg-white hover:scale-105 transition focus:outline-none">
-                    <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
-                </button>
-            </div>
+        <div id="screen-practice-intro" class="screen cursor-pointer relative bg-[#f8f5ef]" onclick="navTo('screen-practice')">
+            <!-- Fixed src with URL encoded spaces (%20) and a fallback onerror to a styled placeholder -->
+            <img src="Lift%20the%20needle%20on%20the%20Scractched%20Record.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Lift+the+Needle\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Lift the Needle">
+            
+            <!-- Exit button placed safely in the top left -->
+            <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-6 left-6 p-4 text-brand-teal bg-white/90 backdrop-blur-md rounded-full shadow-xl hover:bg-brand-teal hover:text-white transition focus:outline-none">
+                <svg class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+            </button>
+
+            <!-- Pulse Hitbox indicating where to tap -->
+            <div class="absolute w-[80%] max-w-[300px] h-[8%] bottom-[10%] left-1/2 transform -translate-x-1/2 rounded-[2rem] pulse-hitbox border-2 border-[#0f5b5b]/30 pointer-events-none"></div>
         </div>
 
         <!-- ==========================================
@@ -346,6 +346,23 @@
 
 <!-- APPLICATION LOGIC & DATA ENGINE -->
 <script>
+    // System utility to display custom alerts instead of the browser native alert()
+    function showNotification(message) {
+        const toast = document.createElement('div');
+        toast.className = 'fixed top-10 left-1/2 transform -translate-x-1/2 bg-brand-dark text-white px-6 py-3 rounded-full shadow-2xl z-[200] font-bold text-sm transition-opacity duration-300 opacity-0';
+        toast.innerText = message;
+        document.body.appendChild(toast);
+        
+        // Trigger fade in
+        setTimeout(() => toast.style.opacity = '1', 10);
+        
+        // Remove after 3 seconds
+        setTimeout(() => { 
+            toast.style.opacity = '0'; 
+            setTimeout(() => toast.remove(), 300); 
+        }, 3000);
+    }
+
     // 1. DATA SCHEMA FROM DESIGN SYSTEM
     const seedModules = [
         {
@@ -676,7 +693,7 @@
                     <h3 class="font-serif font-bold text-2xl text-brand-dark mb-4">11. The Video Model</h3>
                     <p class="text-gray-600 mb-8 leading-relaxed max-w-md">Watch a master teacher execute this specific response pathway in a simulated classroom environment. Notice the body language, tone, and pacing used to de-escalate the moment and seamlessly return students to the routine.</p>
                     
-                    <button class="bg-brand-dark text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-luxury hover:bg-gray-800 transition w-full max-w-xs" onclick="alert('Video player launching...')">
+                    <button class="bg-brand-dark text-white px-8 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 shadow-luxury hover:bg-gray-800 transition w-full max-w-xs" onclick="showNotification('Video player launching... (Demo Mode)')">
                         <span>Watch Master Execution</span>
                     </button>
                 </div>
