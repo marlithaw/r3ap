@@ -166,7 +166,7 @@
              ========================================== -->
         <div id="screen-splash" class="screen active cursor-pointer relative bg-[#f8f5ef]" onclick="navTo('screen-dashboard')">
             <!-- Fixed src with URL encoded spaces (%20) and a fallback onerror to a styled placeholder -->
-            <img src="Welcome%20Screen.png" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Welcome+Screen\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Welcome to RAP">
+            <img src="Welcome%20Screen.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Welcome+Screen\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Welcome to RAP">
             
             <!-- Pulse Hitbox indicating where to tap -->
             <div class="absolute w-[80%] max-w-[300px] h-[8%] bottom-[12%] left-1/2 transform -translate-x-1/2 rounded-[2rem] pulse-hitbox border-2 border-[#0f5b5b]/30 pointer-events-none"></div>
@@ -193,10 +193,10 @@
 
                 <!-- Dashboard Grid -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <button onclick="startLiveState()" class="bg-gradient-to-r from-brand-orange to-[#e56a17] text-white rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:opacity-95 transition text-left">
+                    <button onclick="navTo('screen-library')" class="bg-gradient-to-r from-brand-orange to-[#e56a17] text-white rounded-2xl p-6 shadow-luxury flex items-center justify-between group hover:opacity-95 transition text-left">
                         <div>
                             <h3 class="font-serif text-2xl font-bold mb-1">Use It Live</h3>
-                            <p class="text-xs text-white/80 uppercase tracking-wider font-bold">Fast Access Scripts</p>
+                            <p class="text-xs text-white/80 uppercase tracking-wider font-bold">Select a Script</p>
                         </div>
                         <div class="bg-white/20 p-3 rounded-full group-hover:scale-110 transition"><svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div>
                     </button>
@@ -278,7 +278,7 @@
              ========================================== -->
         <div id="screen-practice-intro" class="screen cursor-pointer relative bg-[#f8f5ef]" onclick="navTo('screen-practice')">
             <!-- Fixed src with URL encoded spaces (%20) and a fallback onerror to a styled placeholder -->
-            <img src="Lift the needle on the Scratched Record.png" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Lift+the+Needle\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Lift the Needle">
+            <img src="Lift%20the%20needle%20on%20the%20Scractched%20Record.jpg" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f8f5ef/0f5b5b?text=Lift+the+Needle\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Lift the Needle">
             
             <!-- Exit button placed safely in the top left -->
             <button onclick="navTo('screen-dashboard'); event.stopPropagation();" class="absolute z-20 top-6 left-6 p-4 text-brand-teal bg-white/90 backdrop-blur-md rounded-full shadow-xl hover:bg-brand-teal hover:text-white transition focus:outline-none">
@@ -330,7 +330,7 @@
             <svg class="w-6 h-6 mb-1 icon-svg" viewBox="0 0 24 24"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
             <span class="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">Library</span>
         </button>
-        <button onclick="startLiveState()" class="flex-1 flex flex-col items-center text-brand-orange hover:opacity-80 transition transform -translate-y-2">
+        <button onclick="navTo('screen-library')" class="flex-1 flex flex-col items-center text-brand-orange hover:opacity-80 transition transform -translate-y-2">
             <div class="bg-brand-orange text-white p-3 rounded-full shadow-lg border-2 border-white">
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
             </div>
