@@ -239,6 +239,198 @@
         /* R3 Reset screen styling */
         .r3-step { transition: all 0.2s; }
         .r3-step:hover { transform: translateY(-2px); }
+
+        /* ============================
+           LANDING PAGE / SPLASH
+           ============================ */
+        #screen-splash {
+            background-color: #f6ede0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+            min-height: 100%;
+        }
+
+        .splash-inner {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1.5rem 1.5rem 1.5rem;
+            max-width: 420px;
+            margin: 0 auto;
+            gap: 0.55rem;
+        }
+
+        /* Bridging badge */
+        .bridging-badge {
+            width: 52px; height: 52px;
+            border-radius: 50%;
+            background: white;
+            border: 2px solid #1a7a5a;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        /* Main title on splash */
+        .splash-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.4rem, 10vw, 3.2rem);
+            font-weight: 700;
+            color: #1a1a1a;
+            line-height: 1.05;
+            text-align: center;
+            letter-spacing: -0.01em;
+        }
+        .splash-title sup { font-size: 0.5em; vertical-align: super; }
+
+        /* Press Play button */
+        .press-play-btn {
+            display: flex; align-items: center; gap: 0.7rem;
+            background: #0f5b5b;
+            color: white;
+            border: none;
+            padding: 0.85rem 2.2rem;
+            border-radius: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            box-shadow: 0 6px 20px rgba(15,91,91,0.35);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .press-play-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(15,91,91,0.45); }
+        .press-play-btn:active { transform: scale(0.97); }
+
+        /* ============================
+           CASSETTE TAPE COMPONENT
+           ============================ */
+        .cassette-body {
+            width: clamp(220px, 75vw, 268px);
+            height: clamp(134px, 46vw, 164px);
+            background: linear-gradient(148deg, #1f8c84 0%, #0e6464 55%, #0b5454 100%);
+            border-radius: 11px;
+            position: relative;
+            box-shadow:
+                0 14px 36px rgba(0,0,0,0.42),
+                0 3px 8px rgba(0,0,0,0.22),
+                inset 0 1px 0 rgba(255,255,255,0.11),
+                inset 0 -1px 0 rgba(0,0,0,0.18);
+            border: 1px solid rgba(255,255,255,0.06);
+            flex-shrink: 0;
+        }
+        .cassette-screw {
+            position: absolute;
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.36);
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .cassette-screw.tl { top: 8px; left: 8px; }
+        .cassette-screw.tr { top: 8px; right: 8px; }
+        .cassette-screw.bl { bottom: 25px; left: 8px; }
+        .cassette-screw.br { bottom: 25px; right: 8px; }
+
+        .cassette-label-area {
+            position: absolute;
+            top: 15px; left: 26px; right: 26px; bottom: 25px;
+            background: linear-gradient(148deg, #d8be82 0%, #b49462 100%);
+            border-radius: 6px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.22), 0 2px 4px rgba(0,0,0,0.14);
+        }
+        .cassette-title-strip {
+            background: #181818;
+            height: 27px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4a840;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-shadow: 0 0 8px rgba(212,168,64,0.4);
+        }
+        .cassette-reel-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 4px 8px;
+            height: calc(100% - 27px);
+        }
+        .cassette-reel-window {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #147070, #0b5050);
+            border: 3px solid #8a6a3a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.35), 0 1px 3px rgba(0,0,0,0.2);
+        }
+        .c-spoke {
+            position: absolute;
+            background: rgba(138,106,58,0.5);
+            border-radius: 1px;
+        }
+        .c-spoke-v { width: 2px; height: 32px; }
+        .c-spoke-h { width: 32px; height: 2px; }
+        .c-spoke-d1 { width: 2px; height: 32px; transform: rotate(45deg); }
+        .c-spoke-d2 { width: 32px; height: 2px; transform: rotate(45deg); }
+        .cassette-reel-hub {
+            width: 13px; height: 13px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 30%, #e2cc90, #c4a060);
+            border: 2px solid #8a6a3a;
+            z-index: 1;
+            position: relative;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.25);
+        }
+        .cassette-mid-brand {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 7px;
+            font-weight: 900;
+            color: #4a3010;
+            letter-spacing: 2.5px;
+            text-align: center;
+            line-height: 1.6;
+            text-transform: uppercase;
+        }
+        .cassette-tape-notch {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 68px;
+            height: 21px;
+            background: linear-gradient(180deg, #0e6464 0%, #0b5252 100%);
+            border-top-left-radius: 6px;
+            border-top-right-radius: 6px;
+            border-top: 1px solid rgba(255,255,255,0.08);
+        }
+        .cassette-tape-notch::before,
+        .cassette-tape-notch::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            width: 5px; height: 12px;
+            border-radius: 2px;
+            background: rgba(0,0,0,0.38);
+        }
+        .cassette-tape-notch::before { left: 10px; }
+        .cassette-tape-notch::after { right: 10px; }
+
+        /* Tape edge line across top of notch */
+        .cassette-tape-notch-tape {
+            position: absolute;
+            top: 8px;
+            left: 17px; right: 17px;
+            height: 2px;
+            background: rgba(0,0,0,0.25);
+            border-radius: 1px;
+        }
     </style>
 </head>
 <body>
@@ -249,19 +441,109 @@
     <div id="screens-container">
         
         <!-- ==========================================
-             SCREEN: SPLASH / WELCOME 
+             SCREEN: SPLASH / WELCOME
              ========================================== -->
-        <!-- Background is set to transparent here so the textured body shows through and blends with the image -->
-        <div id="screen-splash" class="screen active cursor-pointer relative bg-transparent" onclick="navTo('screen-dashboard')">
-            <!-- Fixed src with URL encoded spaces (%20) and a fallback onerror to a styled placeholder -->
-            <img src="Welcome%20Screen.png" onerror="this.onerror=null; this.src='https://placehold.co/800x1600/f4ede3/0f5b5b?text=Welcome+Screen\n(Image+Not+Found)';" class="absolute inset-0 w-full h-full object-contain object-center pointer-events-none" alt="Welcome to RAP">
-            
-            <!-- Dynamic Name Overlay to fill the empty gap -->
-            <div class="absolute w-full top-[62%] sm:top-[62%] left-1/2 transform -translate-x-1/2 text-center pointer-events-none z-10">
-                <p class="text-4xl md:text-5xl font-bold drop-shadow-sm transform -rotate-2" style="font-family: 'Caveat', cursive; color: #d36b22; letter-spacing: 0.1em;">EDUCATOR</p>
+        <div id="screen-splash" class="screen active">
+            <div class="splash-inner">
+
+                <!-- Top row: badge flush right -->
+                <div class="w-full flex justify-end mb-1">
+                    <div class="bridging-badge">
+                        <svg viewBox="0 0 52 52" xmlns="http://www.w3.org/2000/svg" style="width:52px;height:52px;">
+                            <circle cx="26" cy="26" r="25" fill="white"/>
+                            <!-- Outer ring text arc (simulated with path labels) -->
+                            <text x="26" y="10" text-anchor="middle" font-size="4.2" font-weight="800" fill="#1a7a5a" font-family="Montserrat,sans-serif" letter-spacing="1.5">BRIDGING</text>
+                            <!-- People figures -->
+                            <circle cx="18" cy="24" r="3.5" fill="#e87040"/>
+                            <path d="M13 34 Q18 28 23 34" fill="#e87040" opacity="0.7"/>
+                            <circle cx="26" cy="22" r="3.5" fill="#1a7a5a"/>
+                            <path d="M21 34 Q26 27 31 34" fill="#1a7a5a" opacity="0.7"/>
+                            <circle cx="34" cy="24" r="3.5" fill="#4a90d9"/>
+                            <path d="M29 34 Q34 28 39 34" fill="#4a90d9" opacity="0.7"/>
+                            <!-- Bridge connector -->
+                            <path d="M15 24 Q26 16 37 24" stroke="#c09e6c" stroke-width="1.2" fill="none" stroke-dasharray="2,2"/>
+                            <!-- Bottom text -->
+                            <text x="26" y="44" text-anchor="middle" font-size="3.4" font-weight="700" fill="#666" font-family="Montserrat,sans-serif" letter-spacing="0.8">PEOPLE · PROCESS</text>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Main headline -->
+                <div class="text-center" style="margin-bottom:0.1rem;">
+                    <h1 class="splash-title">Let's R<sup>3</sup>A.P.</h1>
+                </div>
+
+                <!-- Subtitle block -->
+                <div class="text-center" style="line-height:1.5;">
+                    <p style="font-family:'Montserrat',sans-serif; font-size:10px; font-weight:800; letter-spacing:0.22em; color:#0f5b5b; text-transform:uppercase;">R³ Agency Practice</p>
+                    <p style="font-family:'Playfair Display',serif; font-size:11px; font-style:italic; color:#555; font-weight:600;">Teacher's Edition</p>
+                </div>
+
+                <!-- Tagline -->
+                <p style="font-family:'Montserrat',sans-serif; font-size:10px; color:#888; font-style:italic; text-align:center; max-width:240px; line-height:1.5;">
+                    Predictable adult responses for high-stress classroom moments
+                </p>
+
+                <!-- ── CASSETTE TAPE ── -->
+                <div class="cassette-body" style="margin:0.4rem 0;">
+                    <!-- Corner screws -->
+                    <div class="cassette-screw tl"></div>
+                    <div class="cassette-screw tr"></div>
+                    <div class="cassette-screw bl"></div>
+                    <div class="cassette-screw br"></div>
+
+                    <!-- Label -->
+                    <div class="cassette-label-area">
+                        <!-- "THE REMIX" band -->
+                        <div class="cassette-title-strip">THE REMIX</div>
+                        <!-- Reel row -->
+                        <div class="cassette-reel-row">
+                            <!-- Left reel -->
+                            <div class="cassette-reel-window">
+                                <div class="c-spoke c-spoke-v"></div>
+                                <div class="c-spoke c-spoke-h"></div>
+                                <div class="c-spoke c-spoke-d1"></div>
+                                <div class="c-spoke c-spoke-d2"></div>
+                                <div class="cassette-reel-hub"></div>
+                            </div>
+                            <!-- Center brand -->
+                            <div class="cassette-mid-brand">
+                                R·A·P
+                            </div>
+                            <!-- Right reel -->
+                            <div class="cassette-reel-window">
+                                <div class="c-spoke c-spoke-v"></div>
+                                <div class="c-spoke c-spoke-h"></div>
+                                <div class="c-spoke c-spoke-d1"></div>
+                                <div class="c-spoke c-spoke-d2"></div>
+                                <div class="cassette-reel-hub"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tape window notch at bottom -->
+                    <div class="cassette-tape-notch">
+                        <div class="cassette-tape-notch-tape"></div>
+                    </div>
+                </div>
+                <!-- ── end cassette ── -->
+
+                <!-- Welcome heading -->
+                <h2 style="font-family:'Playfair Display',serif; font-size:clamp(2rem,9vw,2.6rem); color:#4a4a4a; font-weight:400; line-height:1; text-align:center; margin-bottom:0.1rem;">Welcome,</h2>
+
+                <!-- Body copy -->
+                <div class="text-center" style="line-height:1.6;">
+                    <p style="font-family:'Montserrat',sans-serif; font-size:12px; color:#5a5a5a;">It's time for a remix.</p>
+                    <p style="font-family:'Montserrat',sans-serif; font-size:11px; font-weight:700; font-style:italic; color:#0f5b5b;">Do it on Purpose. Not perfectly—Purposefully</p>
+                </div>
+
+                <!-- Press Play button -->
+                <button class="press-play-btn" onclick="navTo('screen-dashboard')" style="margin-top:0.4rem;">
+                    <svg viewBox="0 0 24 24" fill="currentColor" style="width:18px;height:18px;flex-shrink:0;"><path d="M8 5v14l11-7z"/></svg>
+                    Press Play
+                </button>
+
             </div>
-            
-            <!-- Removed the clashing pulse-hitbox div completely -->
         </div>
 
         <!-- ==========================================
@@ -871,15 +1153,15 @@
         const bottomNav = document.getElementById('main-nav');
         const scrollContainer = document.getElementById('screens-container');
         
-        if (screenId === 'screen-splash' || screenId === 'screen-practice-intro') {
+        if (screenId === 'screen-practice-intro') {
             bottomNav.style.display = 'none';
             scrollContainer.style.paddingBottom = '0px';
             document.getElementById('regulate-btn').style.display = 'none';
         } else {
             bottomNav.style.display = 'flex';
             scrollContainer.style.paddingBottom = '80px';
-            // Show regulate button on all content screens except the reset screen itself
-            document.getElementById('regulate-btn').style.display = screenId === 'screen-reset' ? 'none' : 'flex';
+            // Regulate button: hide on splash and reset screens
+            document.getElementById('regulate-btn').style.display = (screenId === 'screen-reset' || screenId === 'screen-splash') ? 'none' : 'flex';
         }
 
         // Update active nav button highlight
